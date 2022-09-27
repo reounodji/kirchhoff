@@ -1,0 +1,138 @@
+﻿@model FittersIndexViewModel
+
+@{
+    ViewData["Title"] = "Monteur";
+    ViewBag.targetArea = "Configuration";
+    var errorMessage = ViewBag.ErrorMessage == null ? "" : ViewBag.ErrorMessage;
+    var localizations = ViewBag.Localizations;
+}
+
+<style>
+    td, th {
+        text-align: center;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-3">
+        <partial name="/Views/Shared/_ConfigNav.cshtml" />
+    </div>
+    <div class="col-md-9">
+        <div class="col-lg-10">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>@localizations["Overview"]</h4>
+                </div>
+                <div class="panel-body">
+                    <div asp-validation-summary="All" style="color:red;">
+                        @if (!String.IsNullOrEmpty(errorMessage))
+                        {
+                            <ul>
+                                <li>@errorMessage</li>
+                            </ul>
+                        }
+                    </div>
+                    @if (User?.IsInRole("CanModifyCompanyLists") == true || User?.IsInRole("CanModifyAllSettings") == true)
+                    {
+                        <form asp-action="ImportFittersFromCSV" asp-controller="Configuration" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <a asp-action="AddFitter" class="btn" style="float: left;"><i class="glyphicon glyphicon-plus"></i> @localizations["AddFitter"]</a>
+                                <div class="input-group-btn" style="text-align:right;">
+                                    <label class="btn-link btn"><i class="glyphicon glyphicon-file"></i>@localizations["SelectCSVFile"] <input type="file" accept=".csv" name="file" hidden onchange="document.getElementById('upload').disabled = false;" /></label>
+                                    <button class="btn-link btn" id="upload" disabled><i class="glyphicon glyphicon-upload"></i>@localizations["Import"]</button>
+                                </div>
+                            </div>
+                        </form>
+                    }
+                    <hr />
+
+                    <div class="table-responsive">
+                        <table id="table" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th colspan="1">@localizations["Name"]</th>
+                                    <th>@localizations["Highlighting"]</th>
+                                    <th colspan="1">@localizations["Options"]</th>
+                                    <th colspan="1"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="ForwardingAgenciesBody">
+                                @for (int i = 0; i < Model?.Fitters?.Count; i++)
+                                {
+                                    <tr>
+                                        <td>@Model.Fitters[i]?.Name</td>
+
+                                        <td>
+                                            <input type="color" class="form-control unselectable" style="min-width:100px; padding:3px;" value="@Model.Fitters[i].ColorCode" disabled />
+                                        </td>
+                                        @if (User?.IsInRole("CanModifyCompanyLists") == true || User?.IsInRole("CanModifyAllSettings") == true)
+                                        {
+                                            <td><a asp-action="EditFitter" asp-route-id="@Model.Fitters[i]?.ID" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> @localizations["Edit"]</a></td>
+                                            <td>
+                                                <form asp-action="DeleteFitter" method="post" onsubmit="disableButton('SendButton')">
+                                                    <input type="hidden" name="id" value="@Model.Fitters[i]?.ID" />
+                                                    <button class="btn btn-danger" id="SendButton" onclick="if (!confirm('@localizations["ConfirmDelete"]')) return false;"><i class="glyphicon glyphicon-remove"></i> @localizations["Delete"]</button>
+                                                </form>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                            <td></td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+            $(document).ready(function () {
+                $('#Fitters').addClass("active");
+                $('#table').DataTable({
+                    "paging": true,
+                    "searching": true,
+                    "stateSave": true,
+                    "aoColumnDefs": [
+                        { 'bSortable': false, 'aTargets': [2, 3] }
+                    ],
+                    "order": [[0, "desc"]],
+                    "language": {
+                        "lengthMenu": localizations['DataTables_LengthMenu'], //"Zeige _MENU_ Einträge pro Seite",
+                        "zeroRecords": localizations['DataTables_ZeroRecords'], //"Keine Einträge gefunden.",
+                        "info": localizations['DataTables_Info'],//"Zeige Seite _PAGE_ von _PAGES_",
+                        "infoEmpty": localizations['DataTables_InfoEmpty'], // "Keine Einträge verfügbar",
+                        "paginate": {
+                            "previous": localizations['DataTables_Previous'],//"Vorherige Seite",
+                            "next": localizations['DataTables_Next']// "Nächste Seite"
+                        },
+                        "search": localizations['Search'] //"Suche:"
+                    },
+                    "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, localizations['All']]],
+                    "dom": '<"top"f>rt<"bottom"lp><"clear">'
+                });
+
+                setupInfoPopOver();
+
+            });
+
+            function setupInfoPopOver() {
+                $('[data-toggle="popover"]').popover();
+                var data = "<ul>";
+                data += "<li>" + localizations['CSVImportDescription'] + "</li>"
+                data += "</ul>";
+                var popover = $('#InfoPopover');
+                popover.attr('data-content', data);
+            }
+    </script>
+}
+

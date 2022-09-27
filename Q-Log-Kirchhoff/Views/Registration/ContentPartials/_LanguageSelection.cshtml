@@ -1,0 +1,97 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@inject IViewLocalizer Localizer
+@using System.Threading
+
+@{
+    //   string[] supportedCultures = { "de", "en-GB", "fr", "es", "it", "pt", "pl", "hr", "tr", "cs-CZ", "sk", "hu", "ro", "ru", "lt", "uk-UA" }; //"bg",
+    string[] supportedCultures = { "de", "en-GB", "fr", "es",  "pt", "pl", "tr", "cs-CZ", "ru"}; //"bg",
+    var curCulture = Thread.CurrentThread.CurrentCulture.Name;
+    string cultures = "";
+    for (int i = 0; i < supportedCultures.Length - 1; i++)
+    {
+        cultures += supportedCultures[i] + ",";
+    }
+    cultures += supportedCultures[supportedCultures.Length - 1];
+
+    var timePerLanguage = Model == null ? 30 : Model?.TimePerLanguage;
+}
+<input type="hidden" id="cultures" value="@cultures" />
+<input type="hidden" id="curCulture" value="@curCulture" />
+
+<input type="hidden" id="NextLanguageTimer" value="@timePerLanguage" />
+
+<div class="row">
+ 
+    <br />
+    <p>@Localizer["SelectLanguage"]</p>
+    <br />
+</div>
+
+@*<div class="row">
+    <ul class="flagTable">
+        @for (int i = 0; i < supportedCultures.Length; i++)
+        {
+            var png = supportedCultures[i] + ".png";
+            var classes = "flag";
+            if (curCulture == supportedCultures[i])
+            {
+                classes += " selected";
+            }
+            <li class="flagListItem">
+                <a asp-action="SetLanguage" asp-route-culture="@supportedCultures[i]" id="Get @supportedCultures[i]"><img src="~/images/Flags/@png" class="@classes" /></a>
+            </li>
+        }
+    </ul>
+</div>*@
+
+<div class="row">
+  
+    <br />
+</div>
+
+<div class="row">
+    <form asp-action="Index" method="get">
+        <input type="hidden" name="page" value="2" />
+        <button id="ContinueButton" class="btn btn-success" style="float:right;">@Localizer["ContinueButton"]</button>
+    </form>
+</div>
+
+<script>
+
+    //window.onload = startTimer();
+
+    //function startTimer() {
+    //    var timer = document.getElementById("NextLanguageTimer").value;
+    //    timer *= 1000;
+    //    setInterval(function () {
+    //        var curCulture = document.getElementById("curCulture").value;
+    //        var all = document.getElementById("cultures").value.split(",");
+    //        var idx = all.indexOf(curCulture);
+    //        idx = (idx + 1) % all.length;
+    //        var a = document.getElementById("Get " + all[idx]);
+    //        a.click();
+    //    }, timer);
+    //}
+
+
+        //var btn = document.getElementById("ContinueButton");
+        //var timer = setInterval(function () {
+        //    var description = btn.innerText.split("(")[0];
+        //    var valueStr = btn.innerText.split("(")[1];
+        //    var value = parseInt(valueStr.charAt(0));
+        //    value--;
+
+        //    if (value <= 0) {
+        //        btn.disabled = false;
+        //        clearInterval(timer);
+        //        btn.innerText = description;
+        //        btn.classList = "btn btn-success";
+        //    }
+        //    else {
+        //        btn.innerText = description + "(" + value + ")";
+        //    }
+        //}, 1000);
+</script>
+
+

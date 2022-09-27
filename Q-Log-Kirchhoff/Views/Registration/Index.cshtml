@@ -1,0 +1,173 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@inject IViewLocalizer Localizer
+@using System.Threading
+
+
+@model RegistrationViewModel
+@{
+    var errorMessage = ViewBag.ErrorMessage == null ? "" : ViewBag.ErrorMessage;
+    Dictionary<string, string> countryCodes = new Dictionary<string, string>();
+    countryCodes.Add("de", "0049");
+    countryCodes.Add("en", "0044");
+    countryCodes.Add("fr", "0033");
+    countryCodes.Add("es", "0034");
+    countryCodes.Add("it", "0039");
+    countryCodes.Add("pt", "00351");
+    countryCodes.Add("pl", "0048");
+    countryCodes.Add("hr", "00385");
+    countryCodes.Add("tr", "0090");
+    countryCodes.Add("cs-CZ", "00420");
+    countryCodes.Add("sk", "00421");
+    countryCodes.Add("hu", "0036");
+    countryCodes.Add("ro", "0040");
+    countryCodes.Add("ru", "007");
+    countryCodes.Add("lt", "00370");
+    countryCodes.Add("uk-UA", "00380");
+    //  string curCulture = Localizer["Language"].Value;//Context.Request.Headers["accept-language"];
+
+}
+
+
+
+@{
+   // string[] supportedCultures = { "de", "en-GB", "fr", "es", "it", "pt", "pl", "hr", "tr", "cs-CZ", "sk", "hu", "ro", "ru", "lt", "uk-UA" }; //"bg",
+    string[] supportedCultures = { "de", "en-GB", "fr", "es", "pt", "pl", "tr", "cs-CZ", "ru" }; //"bg",
+    var curCulture = Thread.CurrentThread.CurrentCulture.Name;
+    string cultures = "";
+    for (int i = 0; i < supportedCultures.Length - 1; i++)
+    {
+        cultures += supportedCultures[i] + ",";
+    }
+    cultures += supportedCultures[supportedCultures.Length - 1];
+
+    var timePerLanguage = Model == null ? 30 : Model?.TimePerLanguage;
+}
+<input type="hidden" id="cultures" value="@cultures" />
+<input type="hidden" id="curCulture" value="@curCulture" />
+
+<input type="hidden" id="NextLanguageTimer" value="@timePerLanguage" />
+
+
+ 
+@{
+    // set the location so that the menubar will not be shown
+    ViewData["Location"] = "Registration";
+    string message = ViewBag.Message;
+}
+
+<link rel="stylesheet" href="~/css/Registration.css" />
+
+
+
+
+<div class="container page-container">
+
+    <div class="row registration-header">
+
+        <div class="col-lg-12">
+            <img src="~/images/Kirchhoff.png" class="logo" />
+        </div>
+    </div>
+
+
+    <div class="row row-box">
+        <div class="col-lg-2">
+            <ul class="flagTable">
+                @for (int i = 0; i < supportedCultures.Length; i++)
+                {
+                    var png = supportedCultures[i] + ".png";
+                    var classes = "flag";
+                    if (curCulture == supportedCultures[i])
+                    {
+                        classes += " selected";
+                    }
+                    <li class="flagListItem">
+                        <a asp-action="SetLanguage" asp-route-page="14" asp-route-culture="@supportedCultures[i]" id="Get @supportedCultures[i]"><img src="~/images/Flags/@png" class="@classes" /></a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+
+        <div class="col-lg-10 form-content p10">
+
+            @*<partial name="/Views/Registration/ContentPartials/_LanguageSelection.cshtml" , model="Model" />*@
+
+
+            @switch (ViewData["RegistrationPage"])
+            {
+                case 1:
+                    <partial name="/Views/Registration/ContentPartials/_LanguageSelection.cshtml" , model="Model" />
+                    break;
+                case 2:
+                    <partial name="/Views/Registration/ContentPartials/_GeneralInformation.cshtml" , model="Model" />
+                    break;
+                case 3:
+                    <partial name="/Views/Registration/ContentPartials/_SafetyInformation.cshtml" , model="Model" />
+                    break;
+                case 4:
+                    <partial name="/Views/Registration/ContentPartials/_InputScreen.cshtml" , model="Model" />
+                    break;
+                case 5:
+                    <partial name="/Views/Registration/ContentPartials/_DataCheck.cshtml" , model="Model" />
+                    break;
+                case 6:
+                    <partial name="/Views/Registration/ContentPartials/_FinalPage.cshtml" , model="Model" />
+                    break;
+                default:
+                    <partial name="/Views/Registration/ContentPartials/_LanguageSelection.cshtml" , model="Model" />
+                    break;
+            }
+
+
+            @*@switch (ViewData["RegistrationPage"])
+        {
+            case 1:
+                <partial name="/Views/Registration/ContentPartials/_LanguageSelection.cshtml" , model="Model" />
+                break;
+            case 2:
+                <partial name="/Views/Registration/ContentPartials/_GeneralInformation.cshtml" , model="Model" />
+                break;
+            case 3:
+                <partial name="/Views/Registration/ContentPartials/_SafetyInformation.cshtml" , model="Model" />
+                break;
+            case 4:
+                <partial name="/Views/Registration/ContentPartials/_DataProtection1.cshtml" , model="Model" />
+                break;
+            case 5:
+                <partial name="/Views/Registration/ContentPartials/_DataProtection2.cshtml" , model="Model" />
+                break;
+            case 6:
+                <partial name="/Views/Registration/ContentPartials/_InputScreen.cshtml" , model="Model" />
+                break;
+            case 7:
+                <partial name="/Views/Registration/ContentPartials/_DataCheck.cshtml" , model="Model" />
+                break;
+            case 8:
+                <partial name="/Views/Registration/ContentPartials/_FinalPage.cshtml" , model="Model" />
+                break;
+            default:
+                <partial name="/Views/Registration/ContentPartials/_LanguageSelection.cshtml" , model="Model" />
+                break;
+        }*@
+
+
+        </div>
+
+    </div>
+
+</div>
+@section Scripts
+    {
+    <script src="~/js/Registration.js"></script>
+    @if (message != "" && message != null)
+    {
+        <script>
+            alert("@message");
+                        location.search = "";
+        </script>
+    }
+    <script src="~/js/VirtualKeyboard.js"></script>
+    <script src="~/js/DisableFKeys.js"></script>
+}

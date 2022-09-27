@@ -1,0 +1,63 @@
+﻿
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+
+<div class="row">
+    <p>@Localizer["RightsHeader"]</p>
+</div>
+<div class="row">
+    <ul>
+        @Localizer["Rights"]
+    </ul>
+    <br />
+</div>
+
+<div class="row">
+    <p>@Localizer["OptionsHeader"]</p>
+</div>
+<div class="row">
+    <ul>
+        @Localizer["Options"]
+    </ul>
+    <br />
+</div>
+
+<div class="row">
+    <label class="control-label unselectable" style="vertical-align:central; text-align:center;">
+        @Localizer["Accept"]
+        <input type="checkbox" class="checkbox" id="acceptCheckBox" onclick="toggleButton(this.checked);" />
+    </label>
+
+</div>
+
+<div class="row">
+    <form asp-action="Index" method="get">
+        <input type="hidden" name="page" value="1" />
+        <button id="CancelButton" class="btn btn-danger" style="float:left;">@Localizer["CancelButton"]</button>
+    </form>
+    <form asp-action="Index" method="get">
+        <input type="hidden" name="page" value="6" />
+        <button id="ContinueButton" class="btn btn-default" style="float:right;" disabled>@Localizer["ContinueButton"]</button>
+    </form>
+</div>
+
+<a asp-action="Index" id="BackToIndex" style="display:none"></a>
+<input type="hidden" id="IdleTimer" value="@Model.TimeTillReset" />
+
+<script>
+    var btn = document.getElementById("ContinueButton");
+    function toggleButton(checked) {
+        if (checked) {
+            btn.classList = "btn btn-success";
+            btn.disabled = false;
+        }
+        else {
+            btn.classList = "btn btn-default";
+            btn.disabled = true;
+        }
+    }
+</script>
+
+<script src="~/js/IdleTimer.js"></script>

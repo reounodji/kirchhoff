@@ -1,0 +1,36 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    var errorMessage = ViewBag.ErrorMessage == null ? "" : ViewBag.ErrorMessage;
+}
+<div class="container navbar-default" style="padding:1% 6%;">
+    <div id="ErrorDiv" asp-validation-summary="All" style="color:red;">
+        @if (!String.IsNullOrEmpty(errorMessage))
+        {
+            <ul>
+                <li>@errorMessage</li>
+            </ul>
+        }
+    </div>
+
+    <h3>Sie wurden ausgeloggt. Klicken Sie auf "Zum Login" um sich erneut anzumelden.</h3>
+    <a asp-action="Login" asp-controller="Account" class="btn btn-success" style="float:right;" asp-route-targetArea="@ViewBag.targetArea">Zum Login</a>
+</div>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            setupInfoPopOver();
+        });
+
+        function setupInfoPopOver() {
+            $('[data-toggle="popover"]').popover();
+            var data = "<ul>";
+            data += "<li>Um sich neu anzumelden, klicken Sie auf \"Zum Login\".</li>";
+            data += "</ul>";
+            var popover = $('#InfoPopover');
+            popover.attr('data-content', data);
+        }
+    </script>
+}

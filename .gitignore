@@ -1,0 +1,13 @@
+###############
+#    folder   #
+###############
+/**/DROP/
+/**/TEMP/
+/**/packages/
+/**/bin/
+/**/obj/
+**/bin
+images
+**/obj
+.vs/
+/**/log.txt

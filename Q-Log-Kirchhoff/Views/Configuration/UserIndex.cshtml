@@ -1,0 +1,112 @@
+﻿@model UserIndexViewModel
+@{
+    ViewData["Title"] = "Benutzer";
+    ViewBag.targetArea = "Configuration";
+    var errorMessage = ViewBag.ErrorMessage == null ? "" : ViewBag.ErrorMessage;
+    var localizations = ViewBag.Localizations;
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <partial name="/Views/Shared/_ConfigNav.cshtml" />
+    </div>
+    <div class="col-md-9">
+        <div class="col-lg-10">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>@localizations["Overview"]</h4>
+                </div>
+                <div class="panel-body">
+                    <div asp-validation-summary="All" style="color:red;">
+                        @if (!String.IsNullOrEmpty(errorMessage))
+                        {
+                            <ul>
+                                <li>@errorMessage</li>
+                            </ul>
+                        }
+                    </div>
+
+                    <a asp-action="AddUser" class="btn" style="float: left;"><i class="glyphicon glyphicon-plus"></i> @localizations["AddUser"]</a>
+
+                    <br />
+                    <hr />
+
+                    <div class="table-responsive">
+                        <table id="table" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th colspan="1">@localizations["Username"]</th>
+                                    <th colspan="1">@localizations["AuthorizationGroup"]</th>
+                                    <th colspan="1">@localizations["Options"]</th>
+                                    <th colspan="1"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model?.Users?.Count; i++)
+                                {
+                                    <tr>
+                                        <td>@Model.Users[i]?.UserName</td>
+                                        <td>@Model.Users[i]?.AuthorizationGroup</td>
+                                        <td><a asp-action="EditUser" asp-route-id="@Model.Users[i]?.Id" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i> @localizations["Edit"]</a></td>
+                                        <td>
+                                            <form asp-action="DeleteUser" method="post" onsubmit="disableButton('SendButton')">
+                                                <input type="hidden" name="id" value="@Model.Users[i]?.Id" />
+                                                <button class="btn btn-danger" id="SendButton" style="float:right" onclick="if (!confirm('@localizations["ConfirmDelete"]')) return false;"><i class="glyphicon glyphicon-remove"></i> @localizations["Delete"]</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#User').addClass("active");
+            $('#table').DataTable({
+                "paging": true,
+                "searching": true,
+                "stateSave": true,
+                "aoColumnDefs": [
+                    { 'bSortable': false, 'aTargets': [ 3 ] }
+                ],
+                "order": [[0, "desc"]],
+                "language": {
+                    "lengthMenu": localizations['DataTables_LengthMenu'], //"Zeige _MENU_ Einträge pro Seite",
+                    "zeroRecords": localizations['DataTables_ZeroRecords'], //"Keine Einträge gefunden.",
+                    "info": localizations['DataTables_Info'],//"Zeige Seite _PAGE_ von _PAGES_",
+                    "infoEmpty": localizations['DataTables_InfoEmpty'], // "Keine Einträge verfügbar",
+                    "paginate": {
+                        "previous": localizations['DataTables_Previous'],//"Vorherige Seite",
+                        "next": localizations['DataTables_Next']// "Nächste Seite"
+                    },
+                    "search": localizations['Search'] //"Suche:"
+                },
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, localizations['All']]],
+                "dom": '<"top"f>rt<"bottom"lp><"clear">'
+            });
+
+            setupInfoPopOver();
+
+        });
+
+        function setupInfoPopOver() {
+            $('[data-toggle="popover"]').popover();
+            var data = "<ul>";
+            data += "<li>" + localizations['UserConfiguration'] + "</li>";
+            data += "</ul>";
+            var popover = $('#InfoPopover');
+            popover.attr('data-content', data);
+        }
+    </script>
+}
+

@@ -1,0 +1,101 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "Benutzer hinzufügen";
+    ViewBag.targetArea = "Configuration";
+    var errorMessage = ViewBag.ErrorMessage == null ? "" : ViewBag.ErrorMessage;
+    var localizations = ViewBag.Localizations;
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <partial name="/Views/Shared/_ConfigNav.cshtml" />
+    </div>
+    <div class="col-md-9">
+        <div class="col-lg-10">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>@localizations["AddUser"]</h4>
+                </div>
+                <div class="panel-body">
+                    <div id="ErrorDiv" asp-validation-summary="All" style="color:red;">
+                        <ul id="ErrorUL">
+                            @if (!String.IsNullOrEmpty(errorMessage))
+                            {
+                                <li>@errorMessage</li>
+                            }
+                        </ul>
+                    </div>
+
+                    <form class="form" asp-action="AddUser" method="post" onsubmit="disableButton('SendButton')">
+                        <div class="form-group">
+                            <label class="control-label">@localizations["Username"] *:</label>
+                            <input type="text" class="form-control" asp-for="UserName" autocomplete="off" autofocus />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">@localizations["Password"] *:</label>
+                            <input id="pw1" type="password" class="form-control" asp-for="Password" autocomplete="off" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">@localizations["RepeatPassword"] *:</label>
+                            <input id="pw2" type="password" class="form-control" autocomplete="off" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">@localizations["AuthorizationGroup"]:</label>
+                            <select asp-for="Group" class="form-control">
+                                @for (int i = 0; i < Model?.Groups?.Count; i++)
+                                {
+                                    @if (Model.Groups[i] == Model.Group)
+                                    {
+                                        <option selected>@Model.Group</option>
+                                    }
+                                    else
+                                    {
+                                        <option>@Model.Groups[i]</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <hr />
+                        <div class="form-group">
+                            <p>* @localizations["Required"]</p>
+                        </div>
+
+                        <hr />
+                        <div class="form-inline">
+                            <a asp-action="UserIndex" class="btn btn-danger" style="float:left;" id="CancelButton" onsubmit="disableButton('CancelButton')">@localizations["Cancel"]</a>
+                            <button type="submit" onclick="checkPasswords();" class="btn btn-success" style="float:right;" id="SendButton">@localizations["Save"]</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/Config/User/AddUser.js"></script>
+    <script src="~/js/Config/User/CheckPasswords.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            setupInfoPopOver();
+        });
+
+        function setupInfoPopOver() {
+            $('[data-toggle="popover"]').popover();
+            var data = "<ul>";
+            data += "<li>" + localizations['PasswordRequirements'] + "</li>";
+            data += "<li>" + localizations['NameRequired'] + "</li>";
+            data += "</ul>";
+            var popover = $('#InfoPopover');
+            popover.attr('data-content', data);
+        }
+    </script>
+}

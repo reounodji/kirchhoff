@@ -1,0 +1,402 @@
+﻿@model ProcessingViewModel
+@{
+    ViewData["Title"] = "Bearbeitung";
+    ViewBag.targetArea = "Processing";
+    var errorMessage = ViewBag.ErrorMessage == null ? "" : ViewBag.ErrorMessage;
+    ViewBag.returnUrl = Context.Request.Host + "/" + Context.Request.Path;
+    var localizations = ViewBag.Localizations;
+}
+
+
+
+
+<link rel="stylesheet" href="~/css/Processing.css" />
+
+<script src="~/js/WebComponents.js"></script>
+
+
+<!-- Data -->
+<input type="hidden" id="maxWaitingTime" value="@Model?.maxWaitingTime" />
+<input type="hidden" id="ExceededWaitTimeColorCode" value="@Model?.ExceededWaitTimeColorCode" />
+<input type="hidden" id="ExitColorCode" value="@Model?.ExitColorCode" />
+<input type="hidden" id="HoverColorCode" value="@Model?.HoverColorCode" />
+<input type="hidden" id="NewEntryColorCode" value="@Model?.NewEntryColorCode" />
+<input type="hidden" id="RecentChangeColorCode" value="@Model?.RecentChangeColorCode" />
+
+
+<input type="hidden" id="CanModifyCustomer" value="true" />
+<input type="hidden" id="CanSetGate" value="true" />
+
+<input type="hidden" id="CanSetEntrance" value="true" />
+
+<input type="hidden" id="CanSetProcessStart" value="true" />
+
+<input type="hidden" id="CanSetProcessEnd" value="true" />
+
+<input type="hidden" id="CanSetExit" value="true" />
+
+<input type="hidden" id="CanModifyProcessingList" value="true" />
+
+<input type="hidden" id="CanSetLoadingStation" value="true" />
+
+<input type="hidden" id="CanSetRelease" value="true" />
+
+<input type="hidden" id="CanSetCall" value="true" />
+
+
+<div asp-validation-summary="All" style="color:red;">
+    @if (!String.IsNullOrEmpty(errorMessage))
+    {
+        <ul>
+            <li>@errorMessage</li>
+        </ul>
+    }
+</div>
+<script>
+    var processListFilter="@ViewBag.processListFilter";
+</script>
+<div class="row ">
+    <div class="col-lg-12">
+
+        @{
+            string versand = "";
+            string anlieferung = "";
+            string leergut = "";
+
+
+            if (ViewBag.processListFilter == "versand")
+            {
+                versand = "active-filter";
+            }
+            if (ViewBag.processListFilter == "anlieferung")
+            {
+                anlieferung = "active-filter";
+            }
+            if (ViewBag.processListFilter == "leergut")
+            {
+                leergut = "active-filter";
+            }
+
+
+            bool CanDisplayLeergutButton(bool empties, int? status)
+            {
+
+                if (empties && (status == null || status <= 2))
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            bool CanDisplayAnlieferungButton(bool empties, bool delivery, int? status)
+            {
+
+                if ((!empties && delivery && (status == null || status <= 2)) || (empties && delivery && status > 2))
+                {
+                    return true;
+                }
+                return false;
+            }
+
+
+            bool CanDisplayVersandButton(bool empties, bool delivery, bool shipping, int? status)
+            {
+                if (empties && !delivery && shipping && status > 2) return true;
+                if (!empties && !delivery && shipping && (status == null || status <= 2)) return true;
+
+
+                if ((!empties && delivery && delivery && status > 2) || (empties && delivery && delivery && status > 4))
+                {
+                    return true;
+                }
+                return false;
+            }
+
+        }
+
+
+
+        <div class="btn-group filter" role="group" aria-label="Basic example">
+            <a asp-action="Index" id="PreviewButton" asp-route-msg="anlieferung" class="@anlieferung">@localizations["Delivery"]</a>
+            <a asp-action="Index" id="PreviewButton" asp-route-msg="leergut" class="@leergut">@localizations["Empties"]</a>
+            <a asp-action="Index" id="PreviewButton" asp-route-msg="versand" class="@versand">@localizations["Shipping"]</a>
+        </div>
+
+    </div>
+</div>
+<div class="row" id="gate-error" style="display:none;">
+    <div class="col-lg-12">
+        Bitte, Tor auswählen!
+    </div>
+</div>
+<div class="row ">
+    <div class="col-lg-12">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered" id="table" style="table-layout:auto; text-align:center;">
+                <caption>@localizations["RegisteredVehicles"]</caption>
+                <thead>
+                    <tr>
+                        <th>@localizations["Forwarder"]</th>
+                        <th>
+
+
+
+                            @if (ViewBag.processListFilter == "versand")
+                            {
+                                @localizations["Client"]
+                            }
+                            else
+                            {
+
+                                @localizations["Customer"]
+
+                            }
+
+
+
+
+                        </th>
+                        <th>@localizations["Name"]</th>
+                        <th>@localizations["Phone_number"]</th>
+                        <th>@localizations["Notes"]</th>
+                        <th>@localizations["Vehicle_number"]</th>
+                        <th>@localizations["Register"]</th>
+                        <th>@localizations["TimeSinceRegistration"]</th>
+
+                        <th>@localizations["Gate"]</th>
+                        <th>@localizations["InactiveTill"]</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model?.Registrations?.Count; i++)
+                    {
+                        var regist = Model.Registrations[i];
+                        var minSinceRegist = DateTime.Now - regist.TimeOfRegistration;
+                        var rowStyle = "";
+                        var selectedGate = String.IsNullOrEmpty(regist.Gate) ? "" : regist.Gate;
+                        if (minSinceRegist.TotalMinutes > Model?.maxWaitingTime && regist.TimeOfCall == new DateTime()) //&& String.IsNullOrEmpty(Model?.Registrations[i]?.Gate)
+                        {
+                            rowStyle = "style=background-color:" + Model.ExceededWaitTimeColorCode + " !important;";
+                        }
+                        else
+                        {
+                            string colorCode = regist?.ColorCode;
+                            if (colorCode == null || colorCode == "" || colorCode == "#000000")
+                            {
+                                colorCode = "#f2f2f2";
+                            }
+
+                            rowStyle = "style=background-color:" + colorCode + ";";
+                        }
+                        <tr id="TR @regist?.ID" @rowStyle>
+
+
+                            <td>
+                                <span class="unselectable" id="Forwarder @regist?.ID">@regist?.Forwarder</span>
+
+
+                            </td>
+                            <td>
+                                <span class="unselectable" id="Customer @regist?.ID">@regist?.Customer</span>
+                            </td>
+                            <td>
+                                <span class="unselectable" id="FirstName @regist?.ID">@regist?.FirstName</span>, <span class="unselectable" id="Lastname @regist?.ID">@regist?.Lastname</span>
+                            </td>
+
+                            <td>
+                                <span class="unselectable" id="Phonenumber @regist?.ID">@regist?.Phonenumber</span>
+                            </td>
+                            <td>
+
+                                <input id="Comment @regist?.ID" value="@regist.Comment" onchange="commentChanged(@regist?.ID)" />
+
+                            </td>
+
+
+                            <td id="LicensePlate @regist?.ID">
+                                @regist.LicensePlate
+
+                            </td>
+
+
+
+                            @{
+                                var longTimeOfRegist = regist?.TimeOfRegistration.ToString("dd.MM.yyyy HH:mm");
+                                var shortTimeOfRegist = regist?.TimeOfRegistration.ToString("HH:mm");
+                            }
+                            <td>
+                                <span class="unselectable" id="TimeOfRegistration @regist?.ID" onclick="toggleFullDate(this, '@longTimeOfRegist', '@shortTimeOfRegist')">@shortTimeOfRegist</span>
+                            </td>
+
+                            <td id="TimeSinceRegistration @regist?.ID">@minSinceRegist.TotalMinutes.ToString("0") min</td>
+
+                            <td id="Gated @regist?.ID">
+
+
+                                @if ((regist.GoodsReceiptCustomerEmpties || regist.GoodsReceiptdelivery) && (regist.LoadCustomerPickup || regist.LoadEmptiesCollection) && regist.StatusCall == 2)
+                                {
+
+                                }
+
+
+                                @if (!String.IsNullOrEmpty(regist.Gate))
+                                {
+                                    @regist.Gate
+
+
+                                }
+                                else
+                                {
+                                    <input id="Gate @regist?.ID" value="@regist.Gate" class="form-control" onchange="setGate(@regist?.ID)" />
+
+
+                                }
+
+
+
+
+
+                            </td>
+
+
+                            @{
+                                var license = regist?.CompressedLicensePlate;
+                            }
+
+
+
+
+
+
+
+
+
+                            <td>
+                                @if (regist?.ProcessStart != new DateTime())
+                                {
+                                    var shortTimeOfEnd = regist?.ProcessEnd.ToString("HH:mm");
+                                    var longTimeOfEnd = regist?.ProcessStart.ToString();
+                                    @if (regist?.ProcessEnd != new DateTime() || User?.IsInRole("CanSetProcessEnd") == false)
+                                    {
+                                        <span class="unselectable" onclick='toggleFullDate(this, "@longTimeOfEnd" , "@shortTimeOfEnd");'>
+                                            @shortTimeOfEnd
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <button id="TimeOfEnd @regist?.ID" class="btn btn-default" onclick="setProcessEnd(@regist?.ID)">@localizations["End"]</button>
+                                    }
+                                }
+                            </td>
+
+                            <td id="Action @regist?.ID">
+                                @*<time-elapsed-tag date="@regist.TimeOfRegistration"></time-elapsed-tag>*@
+
+                                @{
+                                    string buttonName = "";
+
+
+
+                                    if (regist.StatusCall == null)
+                                    {
+                                        buttonName = "call";
+                                    }
+                                    else if (regist.StatusCall == 1 || regist.StatusCall == 3 || regist.StatusCall == 5)
+                                    {
+                                        buttonName = "confirm";
+                                    }
+                                    else if (regist.StatusCall == 2 || regist.StatusCall == 4 || regist.StatusCall == 6)
+                                    {
+                                        buttonName = "close";
+                                    }
+
+
+
+
+
+
+
+
+                                    if (ViewBag.processListFilter == "leergut" && CanDisplayLeergutButton(regist.GoodsReceiptCustomerEmpties, regist.StatusCall))
+                                    {
+                                        if (buttonName == "call")
+                                        {
+                                            <button id="Call @regist?.ID" class="btn btn-success" onclick="setCall(@regist?.ID,'@selectedGate')">@localizations["call_process"]</button>
+                                        }
+                                        if (buttonName == "confirm")
+                                        {
+                                            <button id="Confirm @regist?.ID" class="btn btn-default" onclick="setConfirm(@regist?.ID)">@localizations["confirm_process"]</button>
+                                        }
+                                        if (buttonName == "close")
+                                        {
+
+                                            <button id="Close @regist?.ID" class="btn btn-warning" onclick="setExit(@regist?.ID)">@localizations["close_prozess"]</button>
+                                        }
+
+                                    }
+
+                                    if (ViewBag.processListFilter == "anlieferung" && CanDisplayAnlieferungButton(regist.GoodsReceiptCustomerEmpties, regist.GoodsReceiptdelivery, regist.StatusCall))
+                                    {
+                                        if (buttonName == "call")
+                                        {
+                                            <button id="Call @regist?.ID" class="btn btn-success" onclick="setCall(@regist?.ID,'@selectedGate')">@localizations["call_process"]</button>
+                                        }
+                                        if (buttonName == "confirm")
+                                        {
+                                            <button id="Confirm @regist?.ID" class="btn btn-default" onclick="setConfirm(@regist?.ID)">@localizations["confirm_process"]</button>
+                                        }
+                                        if (buttonName == "close")
+                                        {
+
+                                            <button id="Close @regist?.ID" class="btn btn-warning" onclick="setExit(@regist?.ID)">@localizations["close_prozess"]</button>
+                                        }
+
+                                    }
+
+                                    if (ViewBag.processListFilter == "versand" && CanDisplayVersandButton(regist.GoodsReceiptCustomerEmpties, regist.GoodsReceiptdelivery, regist.LoadCustomerPickup, regist.StatusCall))
+                                    {
+                                        if (buttonName == "call")
+                                        {
+                                            <button id="Call @regist?.ID" class="btn btn-success" onclick="setCall(@regist?.ID,'@selectedGate')">@localizations["call_process"]</button>
+                                        }
+                                        if (buttonName == "confirm")
+                                        {
+                                            <button id="Confirm @regist?.ID" class="btn btn-default" onclick="setConfirm(@regist?.ID)">@localizations["confirm_process"]</button>
+                                        }
+                                        if (buttonName == "close")
+                                        {
+
+                                            <button id="Close @regist?.ID" class="btn btn-warning" onclick="setExit(@regist?.ID)">@localizations["close_prozess"]</button>
+                                        }
+
+
+                                    }
+
+
+                                }
+
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts{
+    <script src="~/js/Processing.js"></script>
+    <script src="~/js/moment.js"></script>
+    <script src="~/js/datetime-moment.js"></script>
+}
+
+<script>
+    function setWailinglistFilter(name) {
+        localStorage.setItem('warteliste', name);
+    }
+</script>

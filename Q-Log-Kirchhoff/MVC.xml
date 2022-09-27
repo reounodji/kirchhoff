@@ -1,0 +1,1341 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MVC</name>
+    </assembly>
+    <members>
+        <member name="M:MVC.BusinessLogic.Implementations.ADReader.Validate(System.String,System.String)">
+            <summary>
+            Active direcotry only! not LDAP
+            </summary>
+            <exception cref="T:System.Exception"></exception>
+            <param name="userName"></param>
+            <param name="userPass"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Implementations.DisplayFacade.Send(System.Byte[],System.Net.IPAddress,System.Int32,System.Int32)">
+            <summary>
+            Creates a Socket and Sends the data passed as param. if it is gtx it will check for ack
+            </summary>
+            <param name="data"></param>
+            <param name="isEsc"></param>
+            <returns></returns>
+        </member>
+        <member name="P:MVC.BusinessLogic.Interfaces.IAccountFacade.UseAD">
+            <summary>
+            Gets the current setting from the settingsRepository.
+            If UseAD == false, no user will be logged in using Active Directory
+            </summary>
+        </member>
+        <member name="P:MVC.BusinessLogic.Interfaces.IAccountFacade.GenerateAccountsForNewADUsers">
+            <summary>
+            Gets the current setting from the settingsRepository.
+            If true, and UseAD == true, a new account will be created upon 
+            requesting a site if the user is logged in via AD
+            </summary>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IADReader.GetADGroups(System.String)">
+            <summary>
+            Creates a list of all groupnames that the
+            user with the given name is part of.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetGeneralSettings">
+            <summary>
+            Returns the GeneralSettings object from the DB
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetGeneralSettingsViewModel">
+            <summary>
+            Generates the GeneralSettingsViewModel from the GeneralSettings
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.SetGeneralSettings(MVC.Models.ConfigurationViewModels.GeneralSettingsViewModel)">
+            <summary>
+            Accquires the GeneralSettings from the Viewmodel and saves them to the DB
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetTerminalSettingsViewModel">
+            <summary>
+            Gets the TerminalSettings object from the DB and returns it
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.SetTerminalSettings(MVC.Data.Entities.TerminalSettings)">
+            <summary>
+            Saves the Terminalsettings to the DB
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetGatesViewModel">
+            <summary>
+            Gets the current Gate settings from the repository
+            and generates the ConfigurationGatesViewModel with the accquired 
+            Information.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.AddGate(MVC.Data.Entities.Gate)">
+            <summary>
+            Tells the IGatesRepository to add the passed along Gate.
+            </summary>
+            <param name="gate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.DeleteGate(System.Int32)">
+            <summary>
+            Tells the IGatesRepositoy to delete the Gate with the given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.EditGate(MVC.Data.Entities.Gate)">
+            <summary>
+            Tells the IGatesRepository to update the information
+            in the database to match the new values of the passed along gate.
+            </summary>
+            <param name="gate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetGate(System.Int32)">
+            <summary>
+            Gets and returns the gate with the given id from the
+            IGatesRepository.
+            </summary>
+            <param name="id"></param>
+            <returns>Gate</returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetAllGates">
+            <summary>
+            Gets and returns a list of all gates from the
+            IGatesRepository.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.ImportGatesFromCSV(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Utilizes the ICsvReader to generate gates from the
+            csv-file and tells the IGatesRepository to add the gates to the DB.
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetForwardingAgenciesIndexViewModel">
+            <summary>
+            Accquires the list of all ForwardingAgencies from the IForwardingRepository
+            to create the ForwardingAgenciesIndexViewModel.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetForwardingAgencyViewModel">
+            <summary>
+            Creates a ForwardingAgencyViewModel with a new but empty ForwardingAgency 
+            and the List of all Gates from the IGatesRepository.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetForwardingAgencyViewModel(System.Int32)">
+            <summary>
+            Creates a ForwardingAgencyViewModel, filled with the
+            ForwardingAgency with the given ID, as accquired from the IForwardingAgenciesRepository, and the list of all Gates
+            from the IGatesRepository.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.AddForwardingAgency(MVC.Models.ConfigurationViewModels.ForwardingAgencyViewModel)">
+            <summary>
+            Takes the ForwardingAgency from the model and tells the
+            IForwardingAgenciesRepository to add it to the DB.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.DeleteForwardingAgency(System.Int32)">
+            <summary>
+            Tells the IForwardingAgenciesRepository to delete the
+            ForwardingAgency with the given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.EditForwardingAgency(MVC.Models.ConfigurationViewModels.ForwardingAgencyViewModel)">
+            <summary>
+            Gets the forwardingAgency from the model and tells
+            the IForwardingAgenciesRepository to update the data for that Agency.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.ImportForwardingAgenciesFromCSV(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Uses the ICsvReader to create ForwardingAgencies from the 
+            CSV-file and tells the IForwardingRepository to add the agencies 
+            to the db.
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetUnknownForwardingAgenciesViewModel">
+            <summary>
+            Gets the list of all unknownForwardingAgencies from the IUnknownForwardingAgenciesRepository
+            to create the ViewModel.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.ExportUnknownForwardingAgenciesCSVStream">
+            <summary>
+            Creates the unkownSuppliers csv file and creates a filestream with access to it.
+            </summary>
+            <exception cref="T:System.Exception"></exception>
+            <returns>FileStream</returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.ExportUnknownForwardingAgenciesXMLStream">
+            <summary>
+            Creates the unkownSuppliers xml file and creates a filestream with access to it.
+            </summary>
+            <exception cref="T:System.Exception"></exception>
+            <returns>FileStream</returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetDisplayIndexViewModel">
+            <summary>
+            Gets the List of all DisplayConfigurations from the IDisplayConfigurationRepository
+            to create the ViewModel.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.AddDisplay(MVC.Data.Entities.DisplayConfiguration)">
+            <summary>
+            Tells the IDisplayConfigurationrepository to add the new displayConfig.
+            </summary>
+            <param name="displayConfig"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.DeleteDisplay(System.Int32)">
+            <summary>
+            Tells the IDisplayConfigurationRepository to remove the displayConfig with
+            the given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.EditDisplay(MVC.Data.Entities.DisplayConfiguration)">
+            <summary>
+            Calls the DisplayConfigurationRepository to edit
+            the DB values for the passed along displayConfig.
+            </summary>
+            <param name="displayConfiguration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetDisplayConfiguration(System.Int32)">
+            <summary>
+            Gets the DisplayConfiguration with the given ID from the
+            IDisplayConfigurationRepository.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetUserIndexViewModel">
+            <summary>
+            Gets the List of all Users from the UserManager and 
+            creates the ViewModel with it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.AddUser(MVC.Models.ConfigurationViewModels.UserViewModel)">
+            <summary>
+            Creates an AppUser from the data provided by the 
+            model and tell the UserManager to add the new user.
+            Also sets the Roles of the user based on the AuthorizationGroup.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.DeleteUser(System.String)">
+            <summary>
+            Uses the UserManager to find the user with the given id
+            and tells the manager to delete it.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetUserViewModel(System.String)">
+            <summary>
+            Gets the user with the given id from the UserManager
+            and adds the list of AuthorizationGroups from the IAuthorizationGroupsRepository
+            to the ViewModel.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetUserViewModel">
+            <summary>
+            Creates a UserViewModel where the user Data is empty
+            but the List of AuthorizationGroups is acquired from the
+            IAuthorizationGroupsRepository.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.EditUser(MVC.Models.ConfigurationViewModels.UserViewModel,Microsoft.AspNetCore.Identity.IUserValidator{MVC.Data.Entities.AppUser},Microsoft.AspNetCore.Identity.IPasswordHasher{MVC.Data.Entities.AppUser},Microsoft.AspNetCore.Identity.IPasswordValidator{MVC.Data.Entities.AppUser})">
+            <summary>
+            Validates the Data.
+            Gets the AppUser from the UserManager and updates the info. Sets the roles 
+            and finally tells the UserManager to perform the update on the user.
+            </summary>
+            <param name="model"></param>
+            <param name="userValidator"></param>
+            <param name="passwordHasher"></param>
+            <param name="passwordValidator"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.AuthorizationGroups">
+            <summary>
+            Gets the list of all the names from the AuthorizationGroups
+            provided by the IAuthorizationGroupsRepository.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetAuthorizationGroupsViewModel">
+            <summary>
+            Creates the new Viewmodel and fills it with all groups accquired
+            from the IAuthorizationGroupsRepository.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.AddAuthorizationGroup(MVC.Models.ConfigurationViewModels.GroupViewModel)">
+            <summary>
+            Gets the AuthorizationGroup from the model and tells
+            the AuthorizationGroupsRepository to add the group.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.EditAuthorizationGroup(MVC.Models.ConfigurationViewModels.GroupViewModel)">
+            <summary>
+            Tells the AuthorizationGroupsRepository to apply the new values
+            and updates the roles for all users of the group.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.DeleteAuthorizationGroup(System.Int32)">
+            <summary>
+            Tells the AuthorizationGroupsRepository to remve the group.
+            Also sets the AuthorizationGroup of all the users of the group to "" and updates
+            the roles of the users. This will lead to all users of that group having no roles at all.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetGroupViewModel(System.Int32)">
+            <summary>
+            Gets the group with the given id from the IAuthorizationGroupsRepository
+            and creates the ViewModel with it.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.GetADSettings">
+            <summary>
+            Gets and returns the ADSettings from the IADSettingsRepository
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IConfigurationFacade.SetADSettings(MVC.Data.Entities.ADSettings)">
+            <summary>
+            Tells the IADSettingsRepository to set the
+            settings to those passed along.
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.ICsvReader.Read(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Reads the file and sets the Keys, Values and isValid flags
+            </summary>
+            <param name="file"></param>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.ICsvReader.ContainsKeys(System.String[])">
+            <summary>
+            Checks if the given keys are contained in the list of Keys found in the file.
+            Must be called after 'Read(file)' has been performed.
+            </summary>
+            <param name="keys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IDisplayFacade.Update">
+            <summary>
+            Updates all displays. Returns true if successful, false otherwise
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IExportFacade.GenerateUnknownForwardingAgenciesCSVData">
+            <summary>
+            Gets all unknownForwardingAgencies and creates a CSV-formatted string 
+            from the data.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IExportFacade.GenerateUnknownForwardingAgenciesXMLData">
+            <summary>
+            Gets all unknownForwardingAgencies and creates a XML-formatted string 
+            from the data.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IExportFacade.GenerateRegistrationHistoryCSV">
+            <summary>
+            Gets all ClosedRegistrations from the DB and creates a CSV-formatted
+            string from the data.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IHistoryFacade.GetHistoryViewModel(System.DateTime,System.DateTime)">
+            <summary>
+            Gets all closed Registrations from the IClosedRegistrationsRepository and fills
+            the new ViewModel with them.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IHistoryFacade.ExportRegistrationHistoryCSV">
+            <summary>
+            Gets the CSV string from the IExportFacade, writes it to a .csv-file and returns a filestream
+            to said file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IProcessingFacade.GetProcessingViewModel">
+            <summary>
+            Gets all OpenRegistrations from the IOpenRegistrationRepository
+            and all Gates from the IGatesRepository. Creates the ViewModel and
+            puts those in there.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IProcessingHubFacade.SetEntry(System.Int32,System.DateTime)">
+            <summary>
+            exectues 'SetEntry(id, curTime)' on the IOpenRegistrationRepository to set the time.
+            afterwards tells the DisplayFacade to Update the display. 
+            If the Update was not successfull, SetEntry is executed again on the 
+            IOpenRegisttaionRepository with new DateTime() as time.
+            </summary>
+            <param name="id"></param>
+            <param name="curTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IProcessingHubFacade.SetExit(System.Int32,System.DateTime)">
+            <summary>
+            tells the OpenRegistrationsRepository to remove the registration with 
+            the given id.
+            Creates a new ClosedRegistration from the registration data and calls
+            all clients to add the closed registration.
+            Finally updates the displays
+            </summary>
+            <param name="id"></param>
+            <param name="curTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IProcessingHubFacade.SetGate(System.Int32,System.String)">
+            <summary>
+            Tells the openRegistrationRepository to set the new gate.
+            Updates the displays afterwards.
+            If the Update was unsuccessfull, call setGate on the OpenRegistrationRepository again with
+            the pre change value, to restore the original state.
+            </summary>
+            <param name="id"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IRegistrationFacade.AddRegistrationFromViewModel(MVC.Models.RegistrationViewModel)">
+            <summary>
+            Creates an OpenRegistration from the ViewModel and tells the IOpenRegistrationsRepository to add it.
+            Calls addRegistration on all clients of the processinghub to update their lists.
+            Finally update the displays.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.BusinessLogic.Interfaces.IRegistrationHubFacade.GetForwardingAgencies(System.String,System.String)">
+            <summary>
+            Gets all ForwardingAgencies from the IForwardingAgenciesRepository
+            and returns the names of those that contain the input string.
+            The check is dont with both sides toUpper().
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MVC.Controllers.AccountController">
+            <summary>
+            Handles the login and logout features.
+            Also handles access denied and the creation of ad accounts
+            </summary>
+            <remarks>The controller uses the Authorize attribute to be able to create accounts in certain situations when windows authorization 
+            is active on the iis and anonymous authentification isnt.</remarks>
+        </member>
+        <member name="M:MVC.Controllers.AccountController.#ctor(Microsoft.AspNetCore.Identity.UserManager{MVC.Data.Entities.AppUser},Microsoft.AspNetCore.Identity.SignInManager{MVC.Data.Entities.AppUser},MVC.BusinessLogic.Interfaces.IADReader,MVC.Repositories.Interfaces.IAuthorizationGroupsRepository,MVC.BusinessLogic.Interfaces.IAccountFacade,Microsoft.Extensions.Logging.ILogger{MVC.Controllers.AccountController})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="userManager"></param>
+            <param name="signInManager"></param>
+            <param name="adReader"></param>
+            <param name="groupsRepository"></param>
+            <param name="accountFacade"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:MVC.Controllers.AccountController.Index">
+            <summary>
+            If anyone navigates to the controllers index url directly, the client will just be redirected to the login.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.AccountController.Login(System.String,System.String)">
+            <summary>
+            Shows the Login view
+            </summary>
+            <remarks>Uses the AllowAnonymous attribute to enable everyone to login.</remarks>
+            <param name="targetArea"></param>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.AccountController.Login(MVC.Models.LoginViewModel,System.String)">
+            <summary>
+            Handels the login procedure. 
+            Depending on the settings, the user will be logged in using AD or local users. 
+            Can also call CreateUserFromAD if the user could be validated by ad but doesnt have a local user account.
+            </summary>
+            <remarks>Uses the AllowAnonymous Attribute to allow anonymous clients to login.</remarks>
+            <param name="details">The login information entered by the user (username and password)</param>
+            <param name="targetArea">The area of the application that should be loaded after a successfull login</param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.AccountController.Logout(System.String)">
+            <summary>
+            Hanldes the Logout of the user and redirects him to the login.
+            The targetarea is used to allow the user to get to the site he logged out from when he logs back in.
+            </summary>
+            <remarks>Uses Authorize attribute since only people that are logged in can log out.</remarks>
+            <param name="targetArea"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.AccountController.AccessDenied(System.String)">
+            <summary>
+            If the user isnt authenticated, he will be redirected to the login.
+            Otherwise 
+            </summary>
+            <remarks>Uses AllowAnonymous attribute because clients that failed to authorize will land here.</remarks>
+            <param name="targetArea"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.AccountController.CreateUserFromAD(System.String)">
+            <summary>
+            Creates a local user account for the given username. 
+            Uses the AD groups that the user is part of, to set the authorization group of the local account
+            and there by add him to the group specific roles.
+            </summary>
+            <param name="userName"></param>
+            <returns>AppUser</returns>
+        </member>
+        <member name="M:MVC.Controllers.AccountController.SetUserRoles(MVC.Data.Entities.AppUser)">
+            <summary>
+            Sets the roles of the passed along user to match the roles
+            appropriate for his authorization group.
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MVC.Controllers.ConfigurationController">
+            <summary>
+            Handles all actions perfomed while beeing in the "Konfiguration"-Area.
+            </summary>
+            <remarks>Requires role "CanUseConfig"</remarks>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.#ctor(Microsoft.Extensions.Logging.ILogger{MVC.Controllers.ConfigurationController},MVC.BusinessLogic.Interfaces.IConfigurationFacade,Microsoft.AspNetCore.Identity.IUserValidator{MVC.Data.Entities.AppUser},Microsoft.AspNetCore.Identity.IPasswordValidator{MVC.Data.Entities.AppUser},Microsoft.AspNetCore.Identity.IPasswordHasher{MVC.Data.Entities.AppUser})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="logger"></param>
+            <param name="configurationFacade"></param>
+            <param name="userValidator"></param>
+            <param name="passwordValidator"></param>
+            <param name="passwordHasher"></param>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.Index(System.String)">
+            <summary>
+            First page of the configuration. Will show the general settings.
+            </summary>
+            <param name="msg">Error message to display</param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.SetGeneralSettings(MVC.Models.ConfigurationViewModels.GeneralSettingsViewModel)">
+            <summary>
+            Saves the general settings from the ViewModel
+            </summary>
+            <param name="model"></param>
+            <remarks>Requires role "CanModifyAllSettings"</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.Terminal(System.String)">
+            <summary>
+            Displays the settings for the terminal.
+            </summary>
+            <param name="msg">Optional error message</param>
+            <remarks>Requires role "CanModifyAllSettings"</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.SetTerminalSettings(MVC.Data.Entities.TerminalSettings)">
+            <summary>
+            Saves the settings for the terminal.
+            </summary>
+            <param name="settings"></param>
+            <remarks>Requires role "CanModifyAllSettings"</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.Gates(System.String)">
+            <summary>
+            Displays the gates settings
+            </summary>
+            <param name="msg"></param>
+            <remarks>Requires role "CanModifyAllSettings"</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.EditGate(System.Int32)">
+            <summary>
+            Displays the edit view for the gate with the selected ID.
+            </summary>
+            <remarks>Requires role "CanModifyAllSettings"</remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.AddGate">
+            <summary>
+            Displays the View for adding a new gate.
+            </summary>
+            <remarks>Requires role "CanModifyAllSettings"</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.AddGate(MVC.Data.Entities.Gate)">
+            <summary>
+            Adds the new gate to the db.
+            </summary>
+            <param name="model"></param>
+            <remarks>Requires role "CanModifyAllSettings"</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.DeleteGate(System.Int32)">
+            <summary>
+            Deletes the gate with the given ID
+            </summary>
+            <param name="id"></param>
+            <remarks>Requires role "CanModifyAllSettings"</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.EditGate(MVC.Data.Entities.Gate)">
+            <summary>
+            Saves the properties of the gate.
+            </summary>
+            <param name="gate"></param>
+            <remarks>Requires role "CanModifyAllSettings"</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.ImportGatesFromCSV(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Imports gates from a csv file that is passed along as a formfile
+            </summary>
+            <param name="file">IFormFile that contains the csv</param>
+            <remarks>Requires role "CanModifyAllSettings"</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.ForwardingAgencies(System.String)">
+            <summary>
+            Displays the ForwardingAgencies view.
+            </summary>
+            <param name="msg">Optional error message</param>
+            <remarks>Requires one of the roles "CanModifyAllSettings" or "CanInspectCompanyLists"</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.AddForwardingAgency">
+            <summary>
+            Displays the view for adding a new forwarding agency
+            </summary>
+            <remarks>Requires one of the roles "CanModifyAllSettings" or "CanModifyCompanyLists"</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.AddForwardingAgency(MVC.Models.ConfigurationViewModels.ForwardingAgencyViewModel)">
+            <summary>
+            Adds a new forwarding agency to the DB.
+            </summary>
+            <param name="model"></param>
+            <remarks>Requires one of the roles CanModifyAllSettings, CanModifyCompanyLists</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.EditForwardingAgency(System.Int32)">
+            <summary>
+            Displays the view for editing the forwarding agency with the given id.
+            </summary>
+            <param name="id"></param>
+            <remarks>Requires one of the roles "CanModifyAllSettings, CanModifyCompanyLists"</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.EditForwardingAgency(MVC.Models.ConfigurationViewModels.ForwardingAgencyViewModel)">
+            <summary>
+            Saves the changes made to the forwarding agency.
+            </summary>
+            <remarks>Requires one of the roles CanModifyAllSettings, CanModifyCompanyLists</remarks>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.DeleteForwardingAgency(System.Int32)">
+            <summary>
+            Deletes the forwarding agency with the given id.
+            </summary>
+            <remarks>Requires one of the roles CanModifyAllSettings, CanModifyCompanyLists</remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.ImportForwardingAgenciesFromCSV(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Imports forwarding agencies from a csv file.
+            </summary>
+            <param name="file"></param>
+            <remarks>Requires one of the roles CanModifyAllSettings, CanModifyCompanyLists</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.Suppliers(System.String)">
+            <summary>
+            Displays the suppliers view.
+            </summary>
+            <remarks>Requires on of the roles CanModifyAllSettings, CanInspectCompanyLists</remarks>
+            <param name="msg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.AddSupplier">
+            <summary>
+            Displays the view for adding a new supplier.
+            </summary>
+            <remarks>Requires one of the roles CanModifyAllSettings, CanModifyCompanyLists</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.AddSupplier(MVC.Data.Entities.Supplier)">
+            <summary>
+            Adds the new supplier to the DB.
+            </summary>
+            <param name="model"></param>
+            <remarks>Requires one of the roles CanModifyAllSettings, CanModifyCompanyLists</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.EditSupplier(System.Int32)">
+            <summary>
+            Displays the edit view for the supplier with the given id.
+            </summary>
+            <remarks>Requires one of the roles CanModifyAllSettings, CanModifyCompanyLists</remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.EditSupplier(MVC.Data.Entities.Supplier)">
+            <summary>
+            Saves the changes made to the supplier.
+            </summary>
+            <param name="model"></param>
+            <remarks>Requires one of the roles CanModifyAllSettings, CanModifyCompanyLists</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.DeleteSupplier(System.Int32)">
+            <summary>
+            Deletes the supplier with the given id.
+            </summary>
+            <remarks>Requires one of the roles CanModifyAllSettings, CanModifyCompanyLists</remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.ConfigurationController.ImportSuppliersFromCSV(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Imports suppliers from a csv file
+            </summary>
+            <param name="file"></param>
+            <remarks>Requires one of the roles CanModifyAllSettings, CanModifyCompanyLists</remarks>
+            <returns></returns>
+        </member>
+        <member name="T:MVC.Controllers.HistoryController">
+            <summary>
+            Handles actions performed in the "Historie"-Area.
+            Note: Some actions such as the "Auswahl exportieren" and "Erweitert filtern" are done on the client with js.
+            </summary>
+        </member>
+        <member name="T:MVC.Controllers.ProcessingController">
+            <summary>
+            Note: Most actions are handled in the ProcessingHub as they are initiated through SignalR and Javascript
+            </summary>
+        </member>
+        <member name="T:MVC.Controllers.RegistrationController">
+            <summary>
+            Handles the process of registrating a vehicle.
+            Note: the suggestion of forwarding agencies is done in the registrationHub using SignalR and js.
+            </summary>
+        </member>
+        <member name="T:MVC.Controllers.SignalR.ProcessingHub">
+            <summary>
+            Handles SignalR actions performed in the processing view.
+            </summary>
+            <remarks> 
+            The following actions are included:
+                UpdateSupplier
+                UpdateCustomer
+                SetGate
+                SetEntry
+                SetProcessStart
+                SetProcessEnd
+                SetExit
+            </remarks>
+        </member>
+        <member name="M:MVC.Controllers.SignalR.ProcessingHub.#ctor(Microsoft.Extensions.Logging.ILogger{MVC.Controllers.SignalR.ProcessingHub},System.IServiceProvider)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="logger"></param>
+            <param name="serviceProvider"></param>
+        </member>
+        <member name="M:MVC.Controllers.SignalR.ProcessingHub.UpdateSupplier(System.Int32,System.String)">
+            <summary>
+            Sets the supplier of the registration with the given id
+            to the passed along supplier
+            </summary>
+            <remarks>Requires the role "CanModifySupplier"</remarks>
+            <param name="id">ID of the registration</param>
+            <param name="supplier">Name of the supplier</param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.SignalR.ProcessingHub.UpdateCustomer(System.Int32,System.String)">
+            <summary>
+            Sets the customer of the registration with the given id
+            to the passed along customer
+            </summary>
+            <remarks>Requires the role "CanModifyCustomer"</remarks>
+            <param name="id">ID of the registration</param>
+            <param name="customer">Name of the customer</param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.SignalR.ProcessingHub.SetGate(System.Int32,System.String)">
+            <summary>
+            Sets the gate of the registration with the given id to 
+            the passed along name of the gate
+            </summary>
+            <remarks>Requires the role "CanSetGate"</remarks>
+            <param name="id">ID of the registration</param>
+            <param name="value">Name of the gate</param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.SignalR.ProcessingHub.SetEntry(System.Int32)">
+            <summary>
+            Sets the time of entry of the registration with the given id 
+            to the current server time.
+            </summary>
+            <remarks>Requires the role "CanSetEntrance"</remarks>
+            <param name="id">ID of the registration</param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.SignalR.ProcessingHub.SetProcessStart(System.Int32)">
+            <summary>
+            Sets the time of the process start for the registration with the given id
+            to the current server time.
+            </summary>
+            <remarks>Requires the role "CanSetProcessStart"</remarks>
+            <param name="id">ID of the registration</param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.SignalR.ProcessingHub.SetProcessEnd(System.Int32)">
+            <summary>
+            Sets the process end time for the registration with the given
+            id to the current server time.
+            </summary>
+            <remarks>Requires role "CanSetProcessEnd"</remarks>
+            <param name="id">ID of the registration</param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.SignalR.ProcessingHub.SetExit(System.Int32)">
+            <summary>
+            Sets the exit time of the registration with the given id
+            to the current server time.
+            </summary>
+            <remarks>Required role "CanSetExit"</remarks>
+            <param name="id">ID of the registration</param>
+            <returns></returns>
+        </member>
+        <member name="T:MVC.Controllers.SignalR.RegistrationHub">
+            <summary>
+            Handles the dynamic suggestion of ForwardingAgencies using SignalR
+            </summary>
+        </member>
+        <member name="M:MVC.Controllers.SignalR.RegistrationHub.#ctor(Microsoft.Extensions.Logging.ILogger{MVC.Controllers.SignalR.RegistrationHub},MVC.BusinessLogic.Interfaces.IRegistrationHubFacade)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="logger"></param>
+            <param name="facade"></param>
+        </member>
+        <member name="M:MVC.Controllers.SignalR.RegistrationHub.GetForwardingAgencies(System.String,System.String)">
+            <summary>
+            Sends the list of forwarding agencies, that include the given postalcode and name, 
+            to the client that called this method
+            </summary>
+            <param name="postalCode">Postalcode of the forwarding agency</param>
+            <param name="input">Name of the forwarding agency</param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.SignalR.RegistrationHub.GetSuppliers(System.String)">
+            <summary>
+            Returns a list of suppliers, that include the given name, 
+            to the client that called this method
+            </summary>
+            <param name="input">Name of the supplier</param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Controllers.SignalR.RegistrationHub.GetCustomers(System.String)">
+            <summary>
+            Returns a list of customers, that include the given name
+            </summary>
+            <param name="input">Name of the customer</param>
+            <returns></returns>
+        </member>
+        <member name="T:MVC.Data.DBContext.SeedData">
+            <summary>
+            Used to seed the DB with some necessary objects.
+            </summary>
+        </member>
+        <member name="P:MVC.Data.Entities.TerminalSettings.TimePerLanguage">
+            <summary>
+            how many seconds is each language shown at the language selection page
+            </summary>
+        </member>
+        <member name="P:MVC.Data.Entities.TerminalSettings.TimeTillReset">
+            <summary>
+            after how many seconds of inactivity will the screen jump back
+            </summary>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IADSettingsRepository.Get">
+            <summary>
+            Gets the first settingsobject from the db.
+            the first one is seeded when creating the db. 
+            there should always only be 1 ADSettings object in the db.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IADSettingsRepository.Set(MVC.Data.Entities.ADSettings)">
+            <summary>
+            Applies the settings to the DB
+            </summary>
+            <param name="settings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IAuthorizationGroupsRepository.GetAll">
+            <summary>
+            Returns all AuthorizationGroups from the DB.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IAuthorizationGroupsRepository.Add(MVC.Data.Entities.AuthorizationGroup)">
+            <summary>
+            Adds the AuthorizationGroup to the DB.
+            </summary>
+            <param name="group"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IAuthorizationGroupsRepository.Delete(System.Int32)">
+            <summary>
+            Removes the AuthorizationGroup with the given id
+            from the DB.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IAuthorizationGroupsRepository.Edit(MVC.Data.Entities.AuthorizationGroup)">
+            <summary>
+            Applies the values to the corresponding DB entry.
+            </summary>
+            <param name="group"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IAuthorizationGroupsRepository.Get(System.Int32)">
+            <summary>
+            Returns the Authorizationgroup with the given id.
+            Will return null if none is found.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IAuthorizationGroupsRepository.Get(System.String)">
+            <summary>
+            Returns the AuthorizationGroup with the given name.
+            Will return null if none is found.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IClosedRegistrationsRepository.Add(MVC.Data.Entities.ClosedRegistration)">
+            <summary>
+            Adds the ClosedRegistration to the DB.
+            </summary>
+            <param name="registration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IClosedRegistrationsRepository.GetAll">
+            <summary>
+            Gets all ClosedRegistraions from the DB and returns them as a list.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.ICustomerRepository.Get(System.String)">
+            <summary>
+            Returns the Customer with the given name.
+            Will return null if no such Customer is found.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.ICustomerRepository.Get(System.Int32)">
+            <summary>
+            Returns the Customer with the given id.
+            Will return null if no such Customer is found.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.ICustomerRepository.GetAll">
+            <summary>
+            Returns a list of all Customer stored in the DB.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.ICustomerRepository.Add(MVC.Data.Entities.Customer)">
+            <summary>
+            Adds the Customer to the DB.
+            </summary>
+            <param name="Customer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.ICustomerRepository.Edit(MVC.Data.Entities.Customer)">
+            <summary>
+            Applies the values of the passed along Customer to
+            the corresponding DB entry.
+            </summary>
+            <param name="Customer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.ICustomerRepository.Delete(System.Int32)">
+            <summary>
+            Removes the Customer with the given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.ICustomerRepository.Import(System.Collections.Generic.List{MVC.Data.Entities.Customer})">
+            <summary>
+            Checks if all Customers in the list have a unique name.
+            Afterwards removes all current suppliers from 
+            the DB and adds those from the list.
+            </summary>
+            <param name="agencies"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IDisplayConfigurationRepository.GetAll">
+            <summary>
+            Gets all DisplayConfigurations from the DB and returns them as a list.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IDisplayConfigurationRepository.Add(MVC.Data.Entities.DisplayConfiguration)">
+            <summary>
+            Adds the given DisplayConfiguration to the DB.
+            </summary>
+            <param name="displayConfiguration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IDisplayConfigurationRepository.Delete(System.Int32)">
+            <summary>
+            Removes the DisplayConfiguration with the given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IDisplayConfigurationRepository.EditAsync(MVC.Data.Entities.DisplayConfiguration)">
+            <summary>
+            Applies the values of the passed along Configuration 
+            to the corresponding DB entry.
+            </summary>
+            <param name="displayConfiguration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IDisplayConfigurationRepository.Get(System.Int32)">
+            <summary>
+            Returns the DisplayConfiguration with the given id.
+            Will return null if no such entry can be found.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IForwardingAgenciesRepository.Get(System.String)">
+            <summary>
+            Returns the forwardingAgency with the given name.
+            Will return null if no such Agency is found.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IForwardingAgenciesRepository.Get(System.Int32)">
+            <summary>
+            Returns the ForwardingAgency with the given id.
+            Will return null if no such Agency is found.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IForwardingAgenciesRepository.GetAll">
+            <summary>
+            Returns a list of all ForwardingAgencies stored in the DB.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IForwardingAgenciesRepository.Add(MVC.Data.Entities.ForwardingAgency)">
+            <summary>
+            Adds the ForwardingAgency to the DB.
+            </summary>
+            <param name="forwardingAgency"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IForwardingAgenciesRepository.Edit(MVC.Data.Entities.ForwardingAgency)">
+            <summary>
+            Applies the values of the passed along ForwardingAgency to
+            the corresponding DB entry.
+            </summary>
+            <param name="forwardingAgency"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IForwardingAgenciesRepository.Delete(System.Int32)">
+            <summary>
+            Removes the ForwardingAgency with the given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IForwardingAgenciesRepository.Import(System.Collections.Generic.List{MVC.Data.Entities.ForwardingAgency})">
+            <summary>
+            Checks if all agencies in the list have a unique name.
+            Afterwards removes all current ForwardingAgencies from 
+            the DB and adds those from the list.
+            </summary>
+            <param name="agencies"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IGatesRepository.GetAll">
+            <summary>
+            Returns a list of all gates from the DB.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IGatesRepository.Add(MVC.Data.Entities.Gate)">
+            <summary>
+            Adds the passed along Gate to the DB.
+            </summary>
+            <param name="gate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IGatesRepository.Delete(System.Int32)">
+            <summary>
+            Removes the Gate with the given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IGatesRepository.Get(System.Int32)">
+            <summary>
+            Gets the Gate with the given id.
+            Will return null if no such Gate could be found.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IGatesRepository.Set(MVC.Data.Entities.Gate)">
+            <summary>
+            Gets the corresponding DB entry for the param gate and
+            sets the entry's values to match the gate's
+            </summary>
+            <param name="gate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IGatesRepository.Import(System.Collections.Generic.List{MVC.Data.Entities.Gate})">
+            <summary>
+            Checks if all gates in the list have unique names.
+            Afterwards removes all gates from the DB and adds the list of gates to the db.
+            </summary>
+            <param name="gates"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IGeneralSettingsRepository.GetGeneralSettings">
+            <summary>
+            Loads the GeneralSettings from the db.
+            Will always load the first entry and there should always be exactly 1 entry.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IOpenRegistrationsRepository.Add(MVC.Data.Entities.Registration)">
+            <summary>
+            Uses toUpper() on the license plate and the forwarding agency.
+            Adds the registration to the DB. 
+            </summary>
+            <param name="registration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IOpenRegistrationsRepository.GetAll">
+            <summary>
+            Gets all OpenRegistrations from the DB and returns them as a list.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IOpenRegistrationsRepository.Call(System.Int32,System.DateTime)">
+            <summary>
+            Sets the time of Call for the OpenRegistration with the given id.
+            </summary>
+            <param name="id"></param>
+            <param name="curTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IOpenRegistrationsRepository.SetEntry(System.Int32,System.DateTime)">
+            <summary>
+            Sets the time of Entry for the OpenRegistration with the given id.
+            </summary>
+            <param name="id"></param>
+            <param name="curTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IOpenRegistrationsRepository.Remove(MVC.Data.Entities.OpenRegistration)">
+            <summary>
+            Removes the passed along registration from the DB.
+            </summary>
+            <param name="registration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IOpenRegistrationsRepository.Get(System.Int32)">
+            <summary>
+            Gets and returns the OpenRegistration with the given id from the DB.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IOpenRegistrationsRepository.SetGate(System.Int32,System.String)">
+            <summary>
+            Sets the new Value for the gate for an OpenRegistration with the give id.
+            Afterwards returns the old gate.
+            </summary>
+            <param name="id"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.ISupplierRepository.Get(System.String)">
+            <summary>
+            Returns the supplier with the given name.
+            Will return null if no such supplier is found.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.ISupplierRepository.Get(System.Int32)">
+            <summary>
+            Returns the supplier with the given id.
+            Will return null if no such supplier is found.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.ISupplierRepository.GetAll">
+            <summary>
+            Returns a list of all suppliers stored in the DB.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.ISupplierRepository.Add(MVC.Data.Entities.Supplier)">
+            <summary>
+            Adds the supplier to the DB.
+            </summary>
+            <param name="supplier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.ISupplierRepository.Edit(MVC.Data.Entities.Supplier)">
+            <summary>
+            Applies the values of the passed along supplier to
+            the corresponding DB entry.
+            </summary>
+            <param name="supplier"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.ISupplierRepository.Delete(System.Int32)">
+            <summary>
+            Removes the supplier with the given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.ISupplierRepository.Import(System.Collections.Generic.List{MVC.Data.Entities.Supplier})">
+            <summary>
+            Checks if all suppliers in the list have a unique name.
+            Afterwards removes all current suppliers from 
+            the DB and adds those from the list.
+            </summary>
+            <param name="agencies"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IUnknownCustomerRepository.Add(System.String)">
+            <summary>
+            Adds a new UnknownForwardingAgency with the given name, numberOFAppereances = 1 and
+            the time of first Appereance to the current servertime.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IUnknownCustomerRepository.GetAll">
+            <summary>
+            Retrieves the list of all UnknownForwardingAgencies from the DB.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IUnknownForwardingAgenciesRepository.Add(System.String)">
+            <summary>
+            Adds a new UnknownForwardingAgency with the given name, numberOFAppereances = 1 and
+            the time of first Appereance to the current servertime.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IUnknownForwardingAgenciesRepository.GetAll">
+            <summary>
+            Retrieves the list of all UnknownForwardingAgencies from the DB.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IUnknownSupplierRepository.Add(System.String)">
+            <summary>
+            Adds a new UnknownForwardingAgency with the given name, numberOFAppereances = 1 and
+            the time of first Appereance to the current servertime.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MVC.Repositories.Interfaces.IUnknownSupplierRepository.GetAll">
+            <summary>
+            Retrieves the list of all UnknownForwardingAgencies from the DB.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:MVC.Validation.GermanIdentityErrorDescriber">
+            <summary>
+            This is used to make sure even the build in errormessages of the identity system are translated to german
+            </summary>
+        </member>
+    </members>
+</doc>

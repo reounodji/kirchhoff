@@ -1,0 +1,221 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>3a420847-080b-4c0b-a8a2-1ad7c117db7c</UserSecretsId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DocumentationFile />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="api\**" />
+    <Content Remove="api\**" />
+    <EmbeddedResource Remove="api\**" />
+    <None Remove="api\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200610070753_addedSupplierNumber.cs" />
+    <Compile Remove="Migrations\20200610070753_addedSupplierNumber.Designer.cs" />
+    <Compile Remove="Migrations\20200610071222_addedSupplierNumber.cs" />
+    <Compile Remove="Migrations\20200610071222_addedSupplierNumber.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Localizations\de.json" />
+    <Content Remove="Localizations\en.json" />
+    <Content Remove="Localizations\SMS\SMS-cs.json" />
+    <Content Remove="Localizations\SMS\SMS-de.json" />
+    <Content Remove="Localizations\SMS\SMS-en.json" />
+    <Content Remove="Localizations\SMS\SMS-es.json" />
+    <Content Remove="Localizations\SMS\SMS-fr.json" />
+    <Content Remove="Localizations\SMS\SMS-hr.json" />
+    <Content Remove="Localizations\SMS\SMS-hu.json" />
+    <Content Remove="Localizations\SMS\SMS-it.json" />
+    <Content Remove="Localizations\SMS\SMS-lt.json" />
+    <Content Remove="Localizations\SMS\SMS-pl.json" />
+    <Content Remove="Localizations\SMS\SMS-pt.json" />
+    <Content Remove="Localizations\SMS\SMS-ro.json" />
+    <Content Remove="Localizations\SMS\SMS-ru.json" />
+    <Content Remove="Localizations\SMS\SMS-sk.json" />
+    <Content Remove="Localizations\SMS\SMS-tr.json" />
+    <Content Remove="Localizations\SMS\SMS-uk.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="log.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Localizations\en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Localizations\de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Localizations\SMS\SMS-uk.json" />
+    <None Include="Localizations\SMS\SMS-it.json" />
+    <None Include="Localizations\SMS\SMS-pt.json" />
+    <None Include="Localizations\SMS\SMS-pl.json" />
+    <None Include="Localizations\SMS\SMS-hr.json" />
+    <None Include="Localizations\SMS\SMS-tr.json" />
+    <None Include="Localizations\SMS\SMS-cs.json" />
+    <None Include="Localizations\SMS\SMS-sk.json" />
+    <None Include="Localizations\SMS\SMS-hu.json" />
+    <None Include="Localizations\SMS\SMS-lt.json" />
+    <None Include="Localizations\SMS\SMS-ro.json" />
+    <None Include="Localizations\SMS\SMS-ru.json" />
+    <None Include="Localizations\SMS\SMS-es.json" />
+    <None Include="Localizations\SMS\SMS-fr.json" />
+    <None Include="Localizations\SMS\SMS-en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Localizations\SMS\SMS-de.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="esendex-dotnet-sdk" Version="3.8.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
+    <PackageReference Include="Moment.js" Version="2.24.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="NLog.Config" Version="4.6.8" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.7.0" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Account\AccessDenied.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Account\Logout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Configuration\AddSupplier.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Configuration\BarrierControlSettings.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Configuration\SMSSettings.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Configuration\Terminal.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Configuration\ADSettings.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Configuration\EditAuthorizationGroup.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Configuration\AddAuthorizationGroup.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Configuration\EditSupplier.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Configuration\EditUser.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Configuration\AddUser.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Configuration\AuthorizationGroups.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Configuration\Suppliers.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Configuration\UnknownSuppliers.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Configuration\UserIndex.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Account\Login.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Registration\ContentPartials\_DataProtection2.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Validation\RegistrationViewModelValidator.de.resx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="C:\Users\t.fromme\.nuget\packages\nlog.config\4.5.10\contentFiles\any\any\NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="DataTables_License.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localizations\SMS\SMS-uk.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localizations\SMS\SMS-it.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localizations\SMS\SMS-pt.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localizations\SMS\SMS-pl.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localizations\SMS\SMS-hr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localizations\SMS\SMS-tr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localizations\SMS\SMS-cs.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localizations\SMS\SMS-sk.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localizations\SMS\SMS-hu.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localizations\SMS\SMS-lt.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localizations\SMS\SMS-ro.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localizations\SMS\SMS-ru.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localizations\SMS\SMS-es.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Localizations\SMS\SMS-fr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Moment.js License.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

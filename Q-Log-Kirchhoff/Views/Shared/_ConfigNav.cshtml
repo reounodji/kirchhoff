@@ -1,0 +1,81 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{ 
+    var localizations = ViewBag.Localizations;
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4>@localizations["Areas"]</h4>
+    </div>
+    <div class="panel-body">
+        <ul class="nav nav-stacked nav-pills">
+
+            <li id="Index">
+                <a class="list-group-item" asp-action="Index" style="word-wrap:break-word;">@localizations["General"]</a>
+            </li>
+            <li id="Terminal">
+                <a class="list-group-item" asp-action="Terminal" style="word-wrap:break-word;">@localizations["Terminal"]</a>
+            </li>
+            @if (12==100)
+            {
+                <li id="LoadingStation">
+                    <a class="list-group-item" asp-action="LoadingStations" style="word-wrap:break-word;">@localizations["LoadingStations"]</a>
+                </li>
+                <li id="Gates">
+                    <a class="list-group-item" asp-action="Gates" style="word-wrap:break-word;">@localizations["Gates"]</a>
+                </li>
+            }
+          
+                <li id="ForwardingAgencies">
+                    <a class="list-group-item" asp-action="ForwardingAgencies" style="word-wrap:break-word;">@localizations["ForwardingAgencies"]</a>
+                </li>
+                <li id="Suppliers" style="display:none;">
+                    <a class="list-group-item" asp-action="Suppliers" style="word-wrap:break-word;">@localizations["Suppliers"]</a>
+                </li>
+                <li id="ParcelServices" style="display:none;">
+                    <a class="list-group-item" asp-action="ParcelServices" style="word-wrap:break-word;">@localizations["ParcelServices"]</a>
+                </li>
+                <li id="Fitters" style="display:none;">
+                    <a class="list-group-item" asp-action="Fitters" style="word-wrap:break-word;">@localizations["Fitters"]</a>
+                </li>
+          
+            @if (User?.IsInRole("CanInspectUnknownCompanyLists") == true || User?.IsInRole("CanModifyAllSettings") == true)
+            {
+                <li id="UnknownForwardingAgencies" style="display:none;">
+                    <a class="list-group-item" asp-action="UnknownForwardingAgencies" style="word-wrap:break-word;">@localizations["UnknownForwardingAgencies"]</a>
+                </li>
+                <li id="UnknownSuppliers" style="display:none;">
+                    <a class="list-group-item" asp-action="UnknownSuppliers" style="word-wrap:break-word;">@localizations["UnknownSuppliers"]</a>
+                </li>
+                <li id="UnknownParcelServices" style="display:none;">
+                    <a class="list-group-item" asp-action="UnknownParcelServices" style="word-wrap:break-word;">@localizations["UnknownParcelServices"]</a>
+                </li>
+                <li id="UnknownFitters" style="display:none;">
+                    <a class="list-group-item" asp-action="UnknownFitters" style="word-wrap:break-word;">@localizations["UnknownFitters"]</a>
+                </li>
+            }
+            @if (User?.IsInRole("CanModifyAllSettings") == true)
+            {
+                <li id="Displays">
+                    <a class="list-group-item" asp-action="Displays" style="word-wrap:break-word;">@localizations["Displays"]</a>
+                </li>
+                <li id="User">
+                    <a class="list-group-item" asp-action="UserIndex" style="word-wrap:break-word;">@localizations["User"]</a>
+                </li>
+                <li id="AuthorizationGroups">
+                    <a class="list-group-item" asp-action="AuthorizationGroups" style="word-wrap:break-word;">@localizations["AuthorizationGroups"]</a>
+                </li>
+                <li id="ADSettings" style="display:none;">
+                    <a class="list-group-item" asp-action="ADSettings" style="word-wrap:break-word;">@localizations["AD"]</a>
+                </li>
+                @*<li id="BarrierControlSettings">
+                <a class="list-group-item" asp-action="BarrierControlSettings" style="word-wrap:break-word;">@localizations["BarrierControl"]</a>
+            </li>
+            <li id="SMSSettings">
+                <a class="list-group-item" asp-action="SMSSettings" style="word-wrap:break-word;">@localizations["SMSSettings"]</a>
+            </li>*@
+            }
+        </ul>
+    </div>
+</div>

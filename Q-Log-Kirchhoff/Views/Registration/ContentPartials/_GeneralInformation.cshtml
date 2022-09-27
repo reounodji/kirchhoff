@@ -1,0 +1,51 @@
+﻿
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+
+
+<br />
+
+<div class="row">
+    <p>@Localizer["MainInformationText"]</p>
+</div>
+<br />
+
+<div class="row">
+    <form asp-action="Index" method="get">
+        <input type="hidden" name="page" value="1" />
+        <button id="CancelButton" class="btn btn-danger" style="float:left;">@Localizer["CancelButton"]</button>
+    </form>
+    <form asp-action="Index" method="get">
+        <input type="hidden" name="page" value="3" />
+        <button id="ContinueButton" class="btn btn-default" style="float:right;" disabled>@Localizer["ContinueButton"] (5)</button>
+    </form>
+</div>
+
+<a asp-action="Index" id="BackToIndex" style="display:none"></a>
+<input type="hidden" id="IdleTimer" value="@Model.TimeTillReset" />
+
+<script>
+    var btn = document.getElementById("ContinueButton");
+    var timer = setInterval(function () {
+        var description = btn.innerText.split("(")[0];
+        var valueStr = btn.innerText.split("(")[1];
+        var value = parseInt(valueStr.charAt(0));
+        value--;
+
+        if (value <= 0) {
+            btn.disabled = false;
+            clearInterval(timer);
+            btn.innerText = description;
+            btn.classList = "btn btn-success";
+        }
+        else {
+            btn.innerText = description + "(" + value + ")";
+        }
+    }, 1000);
+</script>
+
+<script src="~/js/IdleTimer.js"></script>
+
+

@@ -1,0 +1,133 @@
+﻿@{ 
+    var localizations = ViewBag.Localizations;
+}
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="#" class="navbar-left"><img src="~/images/Kirchhoff.png" style="height:50px; padding:5px;" /></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                @if (User?.Identity?.IsAuthenticated == false)
+                {
+                    <li>
+                        <a asp-action="Index" asp-controller="Registration">
+                            <i class="glyphicon glyphicon-plus" style="font-size:1.5em;"></i>
+                            @if (ViewBag.targetArea == "Registration")
+                            {
+                                <b style="color:dodgerblue; font-size:1.3em;"> @localizations["MenuRegistration"]</b>
+                            }
+                            else
+                            {
+                                <i> @localizations["MenuRegistration"]</i>
+                            }
+                        </a>
+                    </li>
+                }
+                @if (User?.Identity?.IsAuthenticated == true && User?.IsInRole("CanUseProcessingList") == true)
+                {
+                    <li>
+                        <a asp-action="Index" asp-controller="Processing">
+                            <i class="glyphicon glyphicon-pencil" style="font-size:1.5em;"></i>
+                            @if (ViewBag.targetArea == "Processing")
+                            {
+                            <b style="color:dodgerblue; font-size:1.3em;"> @localizations["MenuProcessing"]</b>
+                            }
+                            else
+                            {
+                            <i> @localizations["MenuProcessing"]</i>
+                            }
+
+                        </a>
+                    </li>
+                }
+
+                @if (User?.Identity?.IsAuthenticated == true && User?.IsInRole("CanUseHistory") == true)
+                {
+                    <li>
+                        <a asp-action="Index" asp-controller="History">
+                            <i class="glyphicon glyphicon-book" style="font-size:1.5em;"></i>
+                            @if (ViewBag.targetArea == "History")
+                            {
+                            <b style="color:dodgerblue; font-size:1.3em;"> @localizations["MenuHistory"]</b>
+                            }
+                            else
+                            {
+                            <i> @localizations["MenuHistory"]</i>
+                            }
+                        </a>
+                    </li>
+                }
+                @if (User?.Identity?.IsAuthenticated == true && User?.IsInRole("CanUseConfig") == true)
+                {
+                    <li>
+                        <a asp-action="Index" asp-controller="Configuration">
+                            <i class="glyphicon glyphicon-cog" style="font-size:1.5em;"></i>
+                            @if (ViewBag.targetArea == "Configuration")
+                            {
+                            <b style="color:dodgerblue; font-size:1.3em;"> @localizations["MenuConfiguration"]</b>
+                            }
+                            else
+                            {
+                            <i> @localizations["MenuConfiguration"]</i>
+                            }
+                        </a>
+                    </li>
+                }
+
+                    <li>
+                        <a href="#" id="Warnings" data-toggle="popover" data-html="true" title="@localizations["Warning"]:" data-trigger="click" data-placement="bottom" data-container="body" data-content="" style="color:red" hidden>
+                            <i class="glyphicon glyphicon-warning-sign" style="font-size:1.5em;"></i>
+                            <i> @localizations["Warning"]</i>
+                        </a>
+                    </li>
+
+                <li>
+                    <a href="#" id="InfoPopover" data-toggle="popover" data-html="true" title="@localizations["Information"]:" data-trigger="click" data-placement="bottom" data-container="body" data-content="Information">
+                        <i class="glyphicon glyphicon-info-sign" style="font-size:1.5em;"></i>
+                        <i> @localizations["Information"]</i>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="glyphicon glyphicon-flag" style="font-size:1.5em;"></i>
+                        @localizations["Language"] <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li> 
+                            <a asp-controller="Language" asp-action="SetLanguage" asp-route-code="de"  ><img src="~/images/Flags/de.png" class="languageSelectionFlags" /><span style="padding: 0px 6px">Deutsch</span></a> 
+                        </li>
+                        <li>
+                            <a asp-controller="Language" asp-action="SetLanguage" asp-route-code="en-GB"><img src="~/images/Flags/en-GB.png" class="languageSelectionFlags"/><span style="padding: 0px 6px">English</span></a>
+                        </li>
+                    </ul>
+                </li>
+                @if (User?.Identity?.IsAuthenticated == true)
+                {
+                    <li>
+                        <a asp-action="Logout" asp-controller="Account" asp-route-targetArea="@ViewBag.targetArea">
+                            <i class="glyphicon glyphicon-log-out" style="font-size:1.5em;"></i>
+                            <i> @localizations["LogOut"]</i>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a asp-action="Login" asp-controller="Account" asp-route-targetArea="@ViewBag.targetArea">
+                            <i class="glyphicon glyphicon-log-in" style="font-size:1.5em;"></i>
+                            <i> @localizations["LogIn"]</i>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>

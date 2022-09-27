@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CancelButton" xml:space="preserve">
+    <value>Ukončiť</value>
+  </data>
+  <data name="ContinueButton" xml:space="preserve">
+    <value>Ďalej</value>
+  </data>
+  <data name="Instructions" xml:space="preserve">
+    <value>Stlačením tlačidla „Ďalej“ potvrdzujete, že ste si pravidlá správania sa prečítali, porozumeli im a akceptujete ich!</value>
+    <comment>3</comment>
+  </data>
+  <data name="SafetyInformation" xml:space="preserve">
+    <value>&lt;li&gt;V areáli podniku platia pravidlá cestnej premávky, ako aj povinnosť nosiť výstražnú vestu a bezpečnostnú obuv!&lt;/li&gt;
+&lt;li&gt;Jazdite rýchlosťou kroku a berte ohľad na pohyb osôb a vozidiel!&lt;/li&gt;
+&lt;li&gt;Je nutné dodržiavať zákonom stanovené požiadavky týkajúce sa zaistenia nákladu (pravidlá cestnej premávky § 22; predpisy o povolení na cestnú premávku §§ 30; 31; pravidlá cestnej premávky §§ 22; 23; obchodný zákonník § 412)!&lt;/li&gt;
+&lt;li&gt;Počas jazdy po areáli podniku musia byť všetky nakladacie otvory uzavreté alebo príslušne zaistené!&lt;/li&gt;
+&lt;li&gt;V celom areáli podniku platí jednosmerná premávka!&lt;/li&gt;
+&lt;li&gt;Platí zákaz samostatného pohybu osôb po areáli podniku, ako aj zákaz vstupu pre osoby mladšie ako 16 rokov!&lt;/li&gt;
+&lt;li&gt;Pokiaľ sa spolucestujúci nezúčastňujú procesu nakládky a vykládky, musia čakať vo vozidle!&lt;/li&gt;
+&lt;li&gt;V areáli podniku platí zákaz fotografovania!&lt;/li&gt;
+&lt;li&gt;V súvislosti so skutočnosťami, ktoré ste mohli vidieť alebo počuť v areáli podniku, je nutné zachovávať mlčanlivosť!&lt;/li&gt;
+&lt;li&gt;Areál podniku je monitorovaný kamerovým systémom!&lt;/li&gt;
+&lt;li&gt;Parkovanie v areáli podniku je povolené výlučne na účely nakládky a vykládky!&lt;/li&gt;
+&lt;li&gt;Podniková bezpečnostná služba vykonáva kontroly vozidiel!&lt;/li&gt;
+&lt;li&gt;Za každých okolností dodržiavajte pokyny zamestnancov oddelenia logistiky a podnikovej bezpečnostnej služby!&lt;/li&gt;</value>
+    <comment>2</comment>
+  </data>
+  <data name="SafetyInformationHeader" xml:space="preserve">
+    <value>Vezmite na vedomie nasledujúce dôležité upozornenia:</value>
+    <comment>1</comment>
+  </data>
+</root>

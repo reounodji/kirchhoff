@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Diese Datei wird vom Veröffentlichungs-/Paketierungsprozess Ihres Webprojekts verwendet. Sie können das Verhalten dieses Prozesses anpassen,
+indem Sie diese MSBuild-Datei bearbeiten. Weitere Informationen hierzu finden Sie unter https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Builds\Kirchhoff</_PublishTargetUrl>
+    <History>True|2021-06-16T09:34:56.8810445Z;True|2021-05-03T10:55:21.0399804+02:00;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="wwwroot/images/Flags/bg.png">
+      <publishTime>09/03/2018 13:34:48</publishTime>
+    </File>
+    <File Include="wwwroot/images/Flags/cs-CZ.png">
+      <publishTime>09/03/2018 13:34:48</publishTime>
+    </File>
+    <File Include="wwwroot/images/Flags/de.png">
+      <publishTime>09/03/2018 13:34:48</publishTime>
+    </File>
+    <File Include="wwwroot/images/Flags/en-GB.png">
+      <publishTime>09/03/2018 13:34:48</publishTime>
+    </File>
+    <File Include="wwwroot/images/Flags/es.png">
+      <publishTime>09/03/2018 13:34:48</publishTime>
+    </File>
+    <File Include="wwwroot/images/Flags/fr.png">
+      <publishTime>09/03/2018 13:34:48</publishTime>
+    </File>
+    <File Include="wwwroot/images/Flags/hr.png">
+      <publishTime>09/03/2018 13:34:48</publishTime>
+    </File>
+    <File Include="wwwroot/images/Flags/hu.png">
+      <publishTime>09/03/2018 13:34:48</publishTime>
+    </File>
+    <File Include="wwwroot/images/Flags/it.png">
+      <publishTime>09/03/2018 13:34:48</publishTime>
+    </File>
+    <File Include="wwwroot/images/Flags/lt.png">
+      <publishTime>09/03/2018 13:34:48</publishTime>
+    </File>
+    <File Include="wwwroot/images/Flags/pl.png">
+      <publishTime>09/03/2018 13:34:48</publishTime>
+    </File>
+    <File Include="wwwroot/images/Flags/pt.png">
+      <publishTime>09/03/2018 13:34:48</publishTime>
+    </File>
+    <File Include="wwwroot/images/Flags/ro.png">
+      <publishTime>09/03/2018 13:34:48</publishTime>
+    </File>
+    <File Include="wwwroot/images/Flags/ru.png">
+      <publishTime>09/03/2018 13:34:48</publishTime>
+    </File>
+    <File Include="wwwroot/images/Flags/sk.png">
+      <publishTime>09/03/2018 13:34:48</publishTime>
+    </File>
+    <File Include="wwwroot/images/Flags/tr.png">
+      <publishTime>09/03/2018 13:34:48</publishTime>
+    </File>
+    <File Include="wwwroot/images/Flags/uk-UA.png">
+      <publishTime>09/03/2018 13:34:48</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

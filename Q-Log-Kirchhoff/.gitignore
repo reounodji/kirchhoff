@@ -1,0 +1,17 @@
+###############
+#    folder   #
+###############
+/**/DROP/
+/**/TEMP/
+/**/packages/
+/**/bin/
+/**/obj/
+_site
+DataExport
+api
+apidoc
+articles
+bin
+images
+obj
+log.txt

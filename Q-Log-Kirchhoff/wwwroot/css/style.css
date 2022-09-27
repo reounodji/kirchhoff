@@ -1,0 +1,106 @@
+﻿
+html{
+    height:100%;
+}
+
+body{
+    min-height:100%;
+}
+
+.checkbox {
+    display: inline-block;
+    height: 2.3em;
+    width: 2.3em;
+    margin: 0 !important;
+    padding: 0;
+    vertical-align: middle;
+}
+
+.validationText
+{
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: red;
+}
+
+.textCenter{
+    text-align: center;
+    width: 60%;
+}
+
+.registrationTable {
+    width: auto;
+    margin: auto;
+    float: none;
+    border: solid;
+    border-width: thin;
+}
+
+.configNavigation {
+    padding-top: 75px;
+    padding-bottom: 25px;
+    height: 100%; /*90vh;*/
+    max-height: 90vh;
+}
+
+.input-validation-error {
+    border: dotted;
+    border-color: red;
+}
+
+.myCheckbox {
+    min-width: 25px;
+    padding: 0px;
+    margin: 0px !important;
+    box-shadow: none;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.dropdown-content li:hover {
+    background-color: #ddd;
+}
+
+.languageSelectionFlags{
+    width: 60px;
+    height: 30px;
+}
+
+/* The max width is dependant on the container (more info below) */
+.popover {
+    max-width: 50%; /* Max Width of the popover (depending on the container!) */
+}
+
+@media (min-width: 0) and (max-width: 1200px) {
+    /* 768px 991px*/
+    .navbar-collapse.collapse {
+        display: none !important;
+    }
+
+        .navbar-collapse.collapse.in {
+            display: block !important;
+        }
+
+    .navbar-header .collapse, .navbar-toggle {
+        display: block !important;
+    }
+
+    .navbar-header {
+        float: none;
+    }
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.unselectable{
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+}
+
+.table > tbody > tr > td {
+    vertical-align: middle;
+}

@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+@{ 
+    var resettime = Model.TimeTillReset;
+    resettime = resettime / 3 >= 15 ? resettime / 5 : 15;
+}
+
+<input type="hidden" id="IdleTimer" value="@resettime" />
+
+@if (!String.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="row">
+        <p style="color:red">@ViewBag.Message</p>
+        <br />
+    </div>
+}
+else
+{
+    <div class="row">
+        <p>@Localizer["RegistrationSuccessful"]</p>
+        <br />
+    </div>
+}
+
+
+<div class="row">
+    <form asp-action="Index" method="get">
+        <input type="hidden" name="page" value="1" />
+        <button id="CancelButton" class="btn btn-primary" style="float:left;">@Localizer["Back"]</button>
+    </form>
+</div>
+<a asp-action="Index" id="BackToIndex" style="display:none"></a>
+<script src="~/js/IdleTimer.js"></script>

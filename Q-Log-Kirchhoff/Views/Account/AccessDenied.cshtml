@@ -1,0 +1,34 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    ViewBag.login = "true";
+    var errorMessage = ViewBag.ErrorMessage == null ? "" : ViewBag.ErrorMessage;
+}
+<div id="ErrorDiv" asp-validation-summary="All" style="color:red;">
+    @if (!String.IsNullOrEmpty(errorMessage))
+    {
+        <ul>
+            <li>@errorMessage</li>
+        </ul>
+    }
+</div>
+<h3>Zutritt verweigert.</h3>
+<a asp-action="Login" asp-controller="Account" asp-route-returnUrl="@ViewBag.returnUrl" class="btn btn-primary">OK</a>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            setupInfoPopOver();
+        });
+
+        function setupInfoPopOver() {
+            $('[data-toggle="popover"]').popover();
+            var data = "<ul>";
+            data += "<li>Sie haben nicht die notwendigen Berechtigungen um den Bereich zu betreten, oder die Aktion auszuführen.</li>";
+            data += "";
+            data += "</ul>";
+            var popover = $('#InfoPopover');
+            popover.attr('data-content', data);
+        }
+    </script>
+}

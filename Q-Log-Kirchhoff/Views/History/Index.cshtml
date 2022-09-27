@@ -1,0 +1,565 @@
+﻿@model HistoryViewModel
+@{
+    ViewData["Title"] = "Historie";
+    ViewBag.targetArea = "History";
+
+    var localizations = ViewBag.Localizations;
+
+    var errorMessage = ViewBag.ErrorMessage == null ? "" : ViewBag.ErrorMessage;
+    string[] cols = { localizations["ID"],
+                      localizations["CompanyName"],
+                      localizations["SupplierNumber"],
+                      localizations["AmountOfPeople"],
+                      localizations["SmallVehicle"],
+                      localizations["BigVehicle"],
+                      localizations["LicensePlate"],
+                      localizations["Comment"],
+                      localizations["ApproachTyp"],
+                      localizations["Target"],
+                      localizations["LoadingStation"],
+                      localizations["Gate"],
+                      localizations["MenuRegistration"],
+                      localizations["Release"],
+                      localizations["Call"],
+                      localizations["Entry"],
+                      localizations["Start"],
+                      localizations["End"],
+                      localizations["Exit"],
+                        localizations["ERPSendStatus"]};
+}
+
+<link rel="stylesheet" href="~/css/History.css" />
+
+<div asp-validation-summary="All" style="color:red;">
+    @if (!String.IsNullOrEmpty(errorMessage))
+    {
+        <ul>
+            <li>@errorMessage</li>
+        </ul>
+    }
+</div>
+
+<input type="hidden" id="HoverColorCode" value="@Model?.HoverColorCode" />
+
+<!-- Timespan -->
+<form asp-controller="History" asp-action="Index" method="get">
+    <div class="row" id="HistoryTimeSelection">
+        <div class="form-inline col-md-3">
+            <label class="control-label col-lg-3">@localizations["LoadHistoryFrom"]</label>
+            <input type="datetime-local" class="form-control col-lg-3" name="start" value="@Model?.Start.ToString("yyyy-MM-ddTHH:mm")" />
+        </div>
+        <div class="form-inline col-md-3">
+            <label class="control-label col-lg-3">@localizations["Until"]:</label>
+            <input type="datetime-local" class="form-control col-lg-3" name="end" value="@Model?.End.ToString("yyyy-MM-ddTHH:mm")" />
+        </div>
+        <div class="form-inline col-md-3">
+
+        </div>
+        <div class="form-inline col-md-3">
+
+        </div>
+       
+
+    </div>
+        <div class="row">
+            <div class="form-inline col-md-3">
+                <label class="control-label col-md-3">@localizations["Vehicle_number"]:</label>
+                <input type="text" class="form-control col-md-8" id="LicensePlateInputx" name="vehiculeNr" value="@ViewBag.vehiculeNr" />
+            </div>
+            <div class="form-inline col-md-3">
+                <label class="control-label col-md-4">@localizations["LastName"]:</label>
+                <input type="text" class="form-control col-md-8" id="LastnameInputx" name="lastname" value="@ViewBag.lastname" />
+            </div>
+
+            <div class="form-inline col-md-3">
+                <label class="control-label col-md-4">@localizations["FirstName"]:</label>
+                <input type="text" class="form-control col-md-8" id="FirstNameInputx" name="firstname" value="@ViewBag.firstname" />
+            </div>
+
+            <div class="form-inline col-md-3">
+                <label class="control-label col-md-4">@localizations["Phone_number"]:</label>
+                <input type="text" class="form-control col-md-8" id="Phone_numberInputx" name="phonenumber" value="@ViewBag.phonenumber" />
+            </div>
+
+            <div class="form-inline col-md-3">
+                <label class="control-label col-md-4">@localizations["Forwarder"]:</label>
+                <input type="text" class="form-control col-md-8" id="ForwarderInputx" name="forwarder" value="@ViewBag.forwarder" />
+            </div>
+
+            <div class="form-inline col-md-3">
+                <label class="control-label col-md-4">@localizations["Customer"]:</label>
+                <input type="text" class="form-control col-md-8" id="CustomerInputx" name="customer" value="@ViewBag.customer" />
+            </div>
+        </div>
+        <div class="row" id="HistoryTimeSelection">
+            <div class="form-inline col-lg-10" style="text-align:center">
+
+            </div>
+
+
+
+            <div class="form-inline col-md-2">
+                <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-search"></i> @localizations["Load"]</button>
+            </div>
+        </div>
+
+</form>
+<!-- RegistrationHistory -->
+<div class="row">
+    <div class="col-lg-12" id="RegistrationHistory">
+        <hr />
+        @*@if (User?.IsInRole("CanExportHistory") == true)
+            {*@
+        @*<button onclick="exportRegistrationSelection(); return false;" class="btn-link"><i class="glyphicon glyphicon-download"></i> @localizations["ExportSelection"]</button>*@
+        <form asp-controller="History" asp-action="ExportRegistrationHistoryCSV" style="display: inline-block;">
+
+            <input type="hidden" class="form-control col-md-8" id="LicensePlateInputx" name="vehiculeNr" value="@ViewBag.vehiculeNr" />
+            <input type="hidden" class="form-control col-md-8" id="LastnameInputx" name="lastname" value="@ViewBag.lastname" />
+            <input type="hidden" class="form-control col-md-8" id="FirstNameInputx" name="firstname" value="@ViewBag.firstname" />
+            <input type="hidden" class="form-control col-md-8" id="Phone_numberInputx" name="phonenumber" value="@ViewBag.phonenumber" />
+            <input type="hidden" class="form-control col-md-8" id="ForwarderInputx" name="forwarder" value="@ViewBag.forwarder" />
+            <input type="hidden" class="form-control col-md-8" id="CustomerInputx" name="customer" value="@ViewBag.customer" />
+
+            <input type="hidden" class="form-control col-lg-3" name="start" value="@Model?.Start.ToString("yyyy-MM-ddTHH:mm")" />
+   
+           <input type="hidden" class="form-control col-lg-3" name="end" value="@Model?.End.ToString("yyyy-MM-ddTHH:mm")" />
+
+
+        <button class="btn-link" onclick="if (!confirm('@localizations["ConfirmDownloadEntireHistory"]')) { return false;}"><i class="glyphicon glyphicon-download"></i> @localizations["ExportAll"]</button>
+        </form>
+        @*//}*@
+        @*<span data-toggle="collapse" class="collapseSpan" data-target="#Filter"><i class="glyphicon glyphicon-filter"></i> @localizations["Filter"] <i class="glyphicon glyphicon-chevron-down"></i></span>*@
+        @*<span data-toggle="collapse" class="collapseSpan" data-target="#ColSelection"><i class="glyphicon glyphicon-eye-close"></i> @localizations["ColumnSelection"] <i class="glyphicon glyphicon-chevron-down"></i></span>*@
+
+        <!-- RegistrationFilter -->
+        <div class="collapse" id="Filter" style="max-width:98%;">
+            <hr />
+            <form onsubmit="event.preventDefault();">
+
+                <div class="row">
+                    <div class="form-inline col-md-3">
+                        <label class="control-label col-md-3">@localizations["Vehicle_number"]:</label>
+                        <input type="text" class="form-control col-md-8" id="LicensePlateInput" />
+                    </div>
+                    <div class="form-inline col-md-3">
+                        <label class="control-label col-md-4">@localizations["LastName"]:</label>
+                        <input type="text" class="form-control col-md-8" id="LastnameInput" />
+                    </div>
+
+                    <div class="form-inline col-md-3">
+                        <label class="control-label col-md-4">@localizations["FirstName"]:</label>
+                        <input type="text" class="form-control col-md-8" id="FirstNameInput" />
+                    </div>
+
+                    <div class="form-inline col-md-3">
+                        <label class="control-label col-md-4">@localizations["Phone_number"]:</label>
+                        <input type="text" class="form-control col-md-8" id="Phone_numberInput" />
+                    </div>
+
+                    <div class="form-inline col-md-3">
+                        <label class="control-label col-md-4">@localizations["Forwarder"]:</label>
+                        <input type="text" class="form-control col-md-8" id="ForwarderInput" />
+                    </div>
+
+                    <div class="form-inline col-md-3">
+                        <label class="control-label col-md-4">@localizations["Customer"]:</label>
+                        <input type="text" class="form-control col-md-8" id="CustomerInputs" />
+                    </div>
+
+
+                    @*</div>
+                        <div class="row">*@
+                    @*<div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["Phone"]:</label>
+                            <input type="text" class="form-control col-md-8" id="PhoneInput" />
+                        </div>*@
+
+                    @*<div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["Size"]:</label>
+                            <select class="form-control col-md-4" id="IsSmallVehicleInput">
+                                <option selected>*</option>
+                                <option>x < 7.5t</option>
+                                <option>x > 7.5t</option>
+                            </select>
+                        </div>
+
+                        <div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["ApproachTyp"]:</label>
+                            <select class="form-control col-md-6" id="ApproachTypSelect">
+                                <option selected>*</option>
+                                <option>@localizations["ForwardingAgency"]</option>
+                                <option>@localizations["Supplier"]</option>
+                                <option>@localizations["ParcelService"]</option>
+                                <option>@localizations["Fitter"]</option>
+                            </select>
+                        </div>*@
+
+                    @*<div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["LoadingStation"]:</label>
+                            <input type="text" class="form-control col-md-4" id="LoadingStationInput" />
+                        </div>
+
+                        <div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["Gate"]:</label>
+                            <input type="text" class="form-control col-md-4" id="GateInput" />
+                        </div>
+
+                        <div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["MenuRegistration"] @localizations["From"]:</label>
+                            <input type="datetime-local" class="form-control col-md-4" id="RegistrationMin" />
+                        </div>
+
+                        <div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["Until"]:</label>
+                            <input type="datetime-local" class="form-control col-md-4" id="RegistrationMax" />
+                        </div>
+
+                        <div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["Release"] @localizations["From"]:</label>
+                            <input type="datetime-local" class="form-control col-md-4" id="ReleaseMin" />
+                        </div>
+
+                        <div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["Release"] @localizations["Until"]:</label>
+                            <input type="datetime-local" class="form-control col-md-4" id="ReleaseMax" />
+                        </div>
+
+                        <div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["Call"] @localizations["From"]:</label>
+                            <input type="datetime-local" class="form-control col-md-4" id="CallMin" />
+                        </div>
+
+                        <div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["Call"] @localizations["Until"]:</label>
+                            <input type="datetime-local" class="form-control col-md-4" id="CallMax" />
+                        </div>
+
+                        <div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["Entry"] @localizations["From"]:</label>
+                            <input type="datetime-local" class="form-control col-md-4" id="EntryMin" />
+                        </div>
+
+                        <div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["Entry"] @localizations["Until"]:</label>
+                            <input type="datetime-local" class="form-control col-md-4" id="EntryMax" />
+                        </div>
+
+                        <div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["Start"] @localizations["From"]:</label>
+                            <input type="datetime-local" class="form-control col-md-4" id="StartMin" />
+                        </div>
+
+                        <div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["Start"] @localizations["Until"]:</label>
+                            <input type="datetime-local" class="form-control col-md-4" id="StartMax" />
+                        </div>
+
+                        <div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["End"] @localizations["From"]:</label>
+                            <input type="datetime-local" class="form-control col-md-4" id="EndMin" />
+                        </div>
+
+                        <div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["End"] @localizations["Until"]:</label>
+                            <input type="datetime-local" class="form-control col-md-4" id="EndMax" />
+                        </div>
+
+                        <div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["Exit"] @localizations["From"]:</label>
+                            <input type="datetime-local" class="form-control col-md-4" id="ExitMin" />
+                        </div>
+
+                        <div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["Exit"] @localizations["Until"]:</label>
+                            <input type="datetime-local" class="form-control col-md-4" id="ExitMax" />
+                        </div>
+
+                        <div class="form-inline col-md-3">
+                            <label class="control-label col-md-4">@localizations["SendToERPSuccesfull"]:</label>
+                            <select class="form-control col-md-4" id="SendToERPInput">
+                                <option selected>*</option>
+                                <option>@localizations["Yes"]</option>
+                                <option>@localizations["No"]</option>
+                            </select>
+                        </div>*@
+                </div>
+                <div class="row">
+                    <button type="reset" class="btn btn-danger" style="margin:0px 30px;" onclick="resetRegistrationTable();">@localizations["Reset"]</button>
+                    <button class="btn btn-primary" onclick="filterRegistrationTable();" style="float:right; margin: 0px 30px;" autofocus>@localizations["Filter"]</button>
+                </div>
+            </form>
+        </div>
+
+
+        <!-- ColSelection -->
+        <div id="ColSelection" class="collapse">
+            <hr />
+            <div class="row">
+                @for (int i = 0; i < cols.Length; i++)
+                {
+                    <label class="control-label unselectable col-sm-3">
+                        <span class="col-sm-6">@cols[i]</span>
+                        <input type="checkbox" onchange="toggleRegistrationCol(@i,this)" class="checkbox col-sm-6" id="ColumnVisibility @i" checked />
+                    </label>
+                }
+            </div>
+        </div>
+
+        <!-- RegistrationHistoryTable -->
+        <div class="table-responsive">
+            <table class="table table-striped table-condensed table-bordered" id="RegistrationHistoryTable" style="table-layout:auto;">
+                <caption>@localizations["RegistrationHistory"]</caption>
+                <thead>
+                    <tr>
+                        <th width="40">@localizations["Vehicle_number"]</th>
+                        <th>@localizations["Name"]</th>
+                        <th>@localizations["Forwarder"]</th>
+
+                        <th>@localizations["Customer"]</th>
+                        <th>@localizations["Destination"]</th>
+
+                        <th>@localizations["Gate"]</th>
+                        <th>@localizations["Register"]</th>
+                        <th>@localizations["CallAction"]</th>
+                        <th>@localizations["DisplayAction"]</th>
+                        <th>@localizations["CloseAction"]</th>
+
+
+
+
+
+
+                        @*<th>@localizations["Gate"]</th>
+                            <th>@localizations["MenuRegistration"]</th>
+                            <th>@localizations["Release"]</th>
+                            <th>@localizations["Call"]</th>
+                            <th>@localizations["Entry"]</th>
+                            <th>@localizations["Start"]</th>
+                            <th>@localizations["End"]</th>
+                            <th>@localizations["Exit"]</th>
+                            <th>@localizations["ERPSendStatus"]</th>*@
+
+
+                        @*<th width="40">@localizations["ID"]</th>
+                            <th>@localizations["CompanyName"]</th>
+                            <th>@localizations["SupplierNumber"]</th>
+                            <th>@localizations["AmountOfPeople"]</th>
+                            <th><img src="~/images/Trucks/small_truck.png" style="height:50px; padding:5px;" /></th>
+                            <th><img src="~/images/Trucks/Big_truck.png" style="height:50px; padding:5px;" /></th>
+                            <th>@localizations["LicensePlate"]</th>
+                            <th>@localizations["Comment"]</th>
+                            <th>@localizations["ApproachTyp"]</th>
+                            <th>@localizations["Target"]</th>
+                            <th>@localizations["LoadingStation"]</th>
+                            <th>@localizations["Gate"]</th>
+                            <th>@localizations["MenuRegistration"]</th>
+                            <th>@localizations["Release"]</th>
+                            <th>@localizations["Call"]</th>
+                            <th>@localizations["Entry"]</th>
+                            <th>@localizations["Start"]</th>
+                            <th>@localizations["End"]</th>
+                            <th>@localizations["Exit"]</th>
+                            <th>@localizations["ERPSendStatus"]</th>*@
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model?.Registrations?.Count; i++)
+                    {
+                        var regist = Model.Registrations[i];
+                        string colorCode = regist?.ColorCode;
+                        if (colorCode == null || colorCode == "" || colorCode == "#000000")
+                        {
+                            colorCode = "#f2f2f2";
+                        }
+
+                        var rowStyle = "background-color:" + colorCode + ";";
+
+                        <tr id="TR @regist?.ID" style="@rowStyle">
+                            @*<td>@regist?.OpenRegistID</td>
+                                <td id="CompanyName @regist?.ID">@regist?.CompanyName</td>
+                                <td id="SupplierNumber @regist?.ID">
+                                    @{
+                                        var supplierNubmer = regist?.SupplierNumber == null ? "-" : regist?.SupplierNumber.ToString();
+                                    }
+                                    @supplierNubmer
+                                </td>
+                                <td id="NumberOfPeople @regist?.NumberOfPeople">@regist?.NumberOfPeople</td>
+                                <td>
+                                    @if (regist?.IsSmallVehicle == true)
+                                    {
+                                        <span><i class="glyphicon glyphicon-ok"></i><span style="display:none;">1</span></span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @if (regist?.IsSmallVehicle == false)
+                                    {
+                                        <span><i class="glyphicon glyphicon-ok"></i><span style="display:none;">1</span></span>
+                                    }
+                                </td>
+
+                                <td id="LicensePlate @regist?.ID">@regist?.LicensePlate</td>
+
+                                <td id="Comment @regist?.ID">@regist?.Comment</td>
+
+                                <td>
+                                    @{
+                                        string approachTyp = string.Empty;
+                                        switch (regist.ApproachTyp)
+                                        {
+                                            case MVC.Data.Enums.EApproachTyp.Fitter:
+                                                approachTyp = localizations["Fitter"];
+                                                break;
+                                            case MVC.Data.Enums.EApproachTyp.ForwardingAgency:
+                                                approachTyp = localizations["ForwardingAgency"];
+                                                break;
+                                            case MVC.Data.Enums.EApproachTyp.ParcelService:
+                                                approachTyp = localizations["ParcelService"];
+                                                break;
+                                            case MVC.Data.Enums.EApproachTyp.Supplier:
+                                                approachTyp = localizations["Supplier"];
+                                                break;
+                                        }
+                                    }
+                                    <span id="ApproachTyp @regist?.ID">@approachTyp</span>
+                                </td>
+
+                                <td id="Target @regist?.ID">
+                                    @regist?.LoadReference
+                                </td>
+
+                                <td id="LoadingStation @regist?.ID">
+                                    @regist?.LoadingStation
+                                </td>
+
+                                <td id="Gate @regist?.ID">
+                                    @regist?.Gate
+                                </td>
+
+                                @{
+                                    var longTimeOfRegist = regist?.TimeOfRegistration.ToString();
+                                }
+                                <td id="TimeOfRegist @regist?.ID">
+                                    @longTimeOfRegist
+                                </td>
+
+                                <td>
+                                    @{
+                                        var timeOfRelease = regist?.TimeOfRelease == new DateTime() ? "-" : regist?.TimeOfRelease.ToString();
+                                    }
+                                    @timeOfRelease
+                                </td>
+
+                                <td>
+                                    @{
+                                        var timeOfCall = regist?.TimeOfCall == new DateTime() ? "-" : regist?.TimeOfCall.ToString();
+                                    }
+                                    @timeOfCall
+                                </td>
+                                <td>
+                                    @{
+                                        var timeOfEntry = regist?.TimeOfEntry == new DateTime() ? "-" : regist?.TimeOfEntry.ToString();
+                                    }
+                                    @timeOfEntry
+                                </td>
+
+                                <td>
+                                    @{
+                                        var processStart = regist?.ProcessStart == new DateTime() ? "-" : regist?.ProcessStart.ToString();
+                                    }
+                                    @processStart
+                                </td>
+
+                                <td>
+                                    @{
+                                        var processEnd = regist?.ProcessEnd == new DateTime() ? "-" : regist?.ProcessEnd.ToString();
+                                    }
+                                    @processEnd
+                                </td>
+
+                                <td>
+                                    @{
+                                        var exit = regist?.TimeOfExit == new DateTime() ? "-" : regist?.TimeOfExit.ToString();
+                                    }
+                                    @exit
+                                </td>
+
+                                <td>
+                                    @{
+                                        if (regist.WasSendingSuccessful)
+                                        {
+                                            <button disabled class="btn btn-success">@localizations["SendedToERP"]</button>
+                                        }
+                                        else
+                                        {
+                                            <button id="SendToERP @regist?.ID" class="btn btn-danger" onclick="sendToERP(@regist?.ID);">@localizations["SendToERP"]</button>
+                                        }
+                                    }
+                                </td>*@
+
+                            <td id="LicensePlate @regist?.ID">@regist?.LicensePlate</td>
+                            <td id="Name @regist?.ID">@regist?.FirstName @regist?.Lastname</td>
+                            <td id="Customer @regist?.ID">@regist?.Customer</td>
+                            <td id="Forwarder @regist?.ID">@regist?.Forwarder</td>
+                            <td>
+                                @{
+                                    string ziel = "";
+                                    if ((regist.LoadCustomerPickup || regist.LoadEmptiesCollection))
+                                    {
+                                        ziel = "1";
+
+                                    }
+                                    else
+                                    {
+                                        ziel = "0";
+                                    }
+
+                                    if (regist.GoodsReceiptdelivery)
+                                    {
+                                        ziel += "1";
+                                    }
+                                    else
+                                    {
+                                        ziel += "0";
+                                    }
+
+
+                                    if (regist.GoodsReceiptCustomerEmpties)
+                                    {
+                                        ziel += "1";
+                                    }
+                                    else
+                                    {
+                                        ziel += "0";
+                                    }
+
+
+
+                                }
+                                @ziel
+                            </td>
+                            <td id="Gate @regist?.ID">@regist?.Gate</td>
+
+                            <td id="TimeOfRegistration @regist?.ID">@regist?.TimeOfRegistration</td>
+                            <td id="TimeOfCall @regist?.ID">@regist?.TimeOfCall.ToShortTimeString()</td>
+                            <td id="TimeOfCall @regist?.ID">@regist?.TimeOfCall.ToShortTimeString()</td>
+                            <td id="TimeOfCall @regist?.ID">@regist?.TimeOfExit.ToShortTimeString()</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--row-->
+</div>
+<hr />
+
+@section Scripts{
+
+    <script src="~/js/History.js"></script>
+    <script src="~/js/moment.js"></script>
+    <script src="~/js/datetime-moment.js"></script>
+}

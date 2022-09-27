@@ -1,0 +1,230 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+@model RegistrationViewModel
+
+
+<form action="Send" id="RegistrationForm" onsubmit="disableButton('SendButton')" method="post">
+    <div asp-validation-summary="All" style="color:red"></div>
+    <div class="control-label">@Localizer["CheckInput"]</div>
+
+    <div class="radio-toolbar">
+        @if (Model.ApproachTyp == MVC.Data.Enums.EApproachTyp.Supplier)
+        {
+            <input type="radio" id="ApproachTypSelectSupplier" value="Supplier" onload="changeForm('@Localizer["SupplierLabel"]*','@Localizer["Supplier"]','@Localizer["LoadReference"]*', '@Localizer["LoadReferenceExample"]')" checked disabled />
+            <input type="radio" id="ApproachTypSelectSupplier" asp-for="ApproachTyp" value="Supplier" onchange="changeForm('@Localizer["Supplier"]*','@Localizer["Supplier"]','@Localizer["LoadReference"]*', '@Localizer["LoadReferenceExample"]')" checked hidden />
+            <label for="ApproachTypSelectSupplier">@Localizer["Supplier"]</label>
+        }
+        else
+        {
+            <input type="radio" id="ApproachTypSelectSupplier" value="Supplier" onload="changeForm('@Localizer["SupplierLabel"]*','@Localizer["Supplier"]','@Localizer["LoadReference"]*', '@Localizer["LoadReferenceExample"]')" disabled />
+            <input type="radio" id="ApproachTypSelectSupplier" asp-for="ApproachTyp" value="Supplier" onchange="changeForm('@Localizer["Supplier"]*','@Localizer["Supplier"]','@Localizer["LoadReference"]*', '@Localizer["LoadReferenceExample"]')" hidden />
+            <label for="ApproachTypSelectSupplier">@Localizer["Supplier"]</label>
+        }
+
+        @if (Model.ApproachTyp == MVC.Data.Enums.EApproachTyp.ForwardingAgency)
+        {
+            <input type="radio" id="ApproachTypSelectForwardingAgency" value="ForwardingAgency" onload="changeForm('@Localizer["ForwardingAgency"]*','@Localizer["ForwardingAgency"]','@Localizer["LoadReference"]*', '@Localizer["LoadReferenceExample"]')" checked disabled />
+            <input type="radio" id="ApproachTypSelectForwardingAgency" asp-for="ApproachTyp" value="ForwardingAgency" onchange="changeForm('@Localizer["ForwardingAgency"]*','@Localizer["ForwardingAgency"]','@Localizer["LoadReference"]*', '@Localizer["LoadReferenceExample"]')" checked hidden />
+            <label for="ApproachTypSelectForwardingAgency">@Localizer["ForwardingAgency"]</label>
+        }
+        else
+        {
+            <input type="radio" id="ApproachTypSelectForwardingAgency" value="ForwardingAgency" onload="changeForm('@Localizer["ForwardingAgency"]*','@Localizer["ForwardingAgency"]','@Localizer["LoadReference"]*', '@Localizer["LoadReferenceExample"]')" disabled />
+            <input type="radio" id="ApproachTypSelectForwardingAgency" asp-for="ApproachTyp" value="ForwardingAgency" onchange="changeForm('@Localizer["ForwardingAgency"]*','@Localizer["ForwardingAgency"]','@Localizer["LoadReference"]*', '@Localizer["LoadReferenceExample"]')" hidden />
+            <label for="ApproachTypSelectForwardingAgency">@Localizer["ForwardingAgency"]</label>
+        }
+
+        @if (Model.ApproachTyp == MVC.Data.Enums.EApproachTyp.ParcelService)
+        {
+            <input type="radio" id="ApproachTypSelectParcelService" value="ParcelService" onload="changeForm('@Localizer["ParcelService"]*','@Localizer["ParcelService"]','@Localizer["Target"]*', '@Localizer["TargetExample"]')" checked disabled />
+            <input type="radio" id="ApproachTypSelectParcelService" asp-for="ApproachTyp" value="ParcelService" onchange="changeForm('@Localizer["ParcelService"]*','@Localizer["ParcelService"]','@Localizer["Target"]*', '@Localizer["TargetExample"]')" checked hidden />
+            <label for="ApproachTypSelectParcelService">@Localizer["ParcelService"]</label>
+        }
+        else
+        {
+            <input type="radio" id="ApproachTypSelectParcelService" value="ParcelService" onload="changeForm('@Localizer["ParcelService"]*','@Localizer["ParcelService"]','@Localizer["Target"]*', '@Localizer["TargetExample"]')" disabled />
+            <input type="radio" id="ApproachTypSelectParcelService" asp-for="ApproachTyp" value="ParcelService" onchange="changeForm('@Localizer["ParcelService"]*','@Localizer["ParcelService"]','@Localizer["Target"]*', '@Localizer["TargetExample"]')" hidden />
+            <label for="ApproachTypSelectParcelService">@Localizer["ParcelService"]</label>
+        }
+
+        @if (Model.ApproachTyp == MVC.Data.Enums.EApproachTyp.Fitter)
+        {
+            <input type="radio" id="ApproachTypSelectFitter" value="Fitter" onload="changeForm('@Localizer["Fitter"]*','@Localizer["Fitter"]','@Localizer["ContactPerson"]*','@Localizer["ContactPersonExample"]')" checked disabled />
+            <input type="radio" id="ApproachTypSelectFitter" asp-for="ApproachTyp" value="Fitter" onchange="changeForm('@Localizer["Fitter"]*','@Localizer["Fitter"]','@Localizer["ContactPerson"]*','@Localizer["ContactPersonExample"]')" checked hidden />
+            <label for="ApproachTypSelectFitter">@Localizer["Fitter"]</label>
+        }
+        else
+        {
+            <input type="radio" id="ApproachTypSelectFitter" value="Fitter" onload="changeForm('@Localizer["Fitter"]*','@Localizer["Fitter"]','@Localizer["ContactPerson"]*','@Localizer["ContactPersonExample"]')" disabled />
+            <input type="radio" id="ApproachTypSelectFitter" asp-for="ApproachTyp" value="Fitter" onchange="changeForm('@Localizer["Fitter"]*','@Localizer["Fitter"]','@Localizer["ContactPerson"]*','@Localizer["ContactPersonExample"]')" hidden />
+            <label for="ApproachTypSelectFitter">@Localizer["Fitter"]</label>
+        }
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            <label asp-for="LicensePlate" class="control-label">@Localizer["Licenseplate"]* / @Localizer["VehicleType"]*</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" value="@Model.LicensePlate" class="form-control inputElement" disabled />
+            <input type="text" onclick="showKeyboard(this);" asp-for="LicensePlate" class="form-control inputElement" id="LicensePlateInput" placeholder="@Localizer["Licenseplate"]" autocomplete="off" hidden />
+        </div>
+        @{
+            var small = Model.IsSmallVehicle;
+            var big = !small;
+        }
+        <div class="col-md-6">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <label class="unselectable" style="width:100%; height:100%;">
+                    <img src="~/images/Trucks/small_truck.png" style="height:50px; padding:5px;" />
+                    <label style="font-size:18px"> 2,8-7,5t</label>
+                    <input type="checkbox" id="smallVehicleCheckBox" class="checkbox inputElement" checked="@small" disabled />
+                    <input asp-for="IsSmallVehicle" value="@small" type="checkbox" checked="@small" hidden />
+                </label>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+            <label class="unselectable" style="width:100%; height:100%;">
+                    <img src="~/images/Trucks/Big_truck.png" style="height:50px; padding:5px;" />
+                    <label style="font-size:18px"> 7,5-40t</label>
+                    <input value="@big" type="checkbox" class="checkbox inputElement" checked="@big" disabled />
+                </label>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="row">
+                <div class="col-md-4">
+                    @{
+                        int SuggestionSize = 6;
+                        string showSupplierNumberInput = "hidden";
+                        switch (Model.ApproachTyp)
+                        {
+                            case MVC.Data.Enums.EApproachTyp.ForwardingAgency:
+                                <label class="control-label" id="CompanyNameLabel">@Localizer["ForwardingAgency"]*</label>
+                                break;
+                            case MVC.Data.Enums.EApproachTyp.Supplier:
+                                <label class="control-label" id="CompanyNameLabel">@Localizer["SupplierLabel"]*</label>
+                                SuggestionSize = 9;
+                                showSupplierNumberInput = "";
+                                break;
+                            case MVC.Data.Enums.EApproachTyp.ParcelService:
+                                <label class="control-label" id="CompanyNameLabel">@Localizer["ParcelService"]*</label>
+                                break;
+                            case MVC.Data.Enums.EApproachTyp.Fitter:
+                                <label class="control-label" id="CompanyNameLabel">@Localizer["Fitter"]*</label>
+                                break;
+
+                        }
+                    }
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="form-control inputElement" value="@Model.CompanyName" autocomplete="off" disabled />
+                    <input type="text" asp-for="CompanyName" class="form-control inputElement" value="@Model.CompanyName" autocomplete="off" hidden />
+                </div>
+            </div>
+
+            <div class="row" id="SupplierNumberInputDiv" @showSupplierNumberInput>
+                <div class="col-md-4">
+                    <label class="control-label">@Localizer["SupplierNumber"]*</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="hidden" asp-for="SupplierNumber" id="supplierNumberASPInput" />
+                    <input class="form-control inputElement" placeholder="@Localizer["SupplierNumber"]" id="SupplierNumberInput" disabled value="@Model.SupplierNumber"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    @{
+                        switch (Model.ApproachTyp)
+                        {
+                            case MVC.Data.Enums.EApproachTyp.ForwardingAgency:
+                            case MVC.Data.Enums.EApproachTyp.Supplier:
+                                <label class="control-label" id="LoadReferenceLabel">@Localizer["LoadReference"]*</label>
+                                break;
+                            case MVC.Data.Enums.EApproachTyp.ParcelService:
+                                <label class="control-label" id="LoadReferenceLabel">@Localizer["Target"]*</label>
+                                break;
+                            case MVC.Data.Enums.EApproachTyp.Fitter:
+                                <label class="control-label" id="LoadReferenceLabel">@Localizer["ContactPerson"]*</label>
+                                break;
+
+                        }
+                    }
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="form-control inputElement" value="@Model.LoadReference" disabled />
+                    <input type="text" asp-for="LoadReference" class="form-control inputElement" value="@Model.LoadReference" hidden />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="control-label">@Localizer["LoadingStation"]*</label>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" class="form-control inputElement" value="@Model.LoadingStation" disabled />
+                    <input type="text" asp-for="LoadingStation" class="form-control inputElement" value="@Model.LoadingStation" hidden />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="control-label">@Localizer["NumberOfPeople"]*</label>
+                </div>
+                <div class="col-md-8">
+                    @{
+                        var numberOfPeople = Model.NumberOfPeople > 0 ? Model.NumberOfPeople : 1;
+                    }
+                    <input type="number" class="form-control inputElement" value="@Model.NumberOfPeople" disabled />
+                    <input asp-for="NumberOfPeople" type="number" class="form-control inputElement" value="@Model.NumberOfPeople" hidden />
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-5">
+            @{
+                switch (Model.ApproachTyp)
+                {
+                    case MVC.Data.Enums.EApproachTyp.Supplier:
+                        <label class="control-label" id="suggestionsLabel">@Localizer["SupplierSuggestions"] :</label>
+                        break;
+                    case MVC.Data.Enums.EApproachTyp.ForwardingAgency:
+                    case MVC.Data.Enums.EApproachTyp.ParcelService:
+                    case MVC.Data.Enums.EApproachTyp.Fitter:
+                        <label class="control-label" id="suggestionsLabel">@Localizer["Suggestions"] :</label>
+                        break;
+                }
+            }
+            <select id="SuggestionContainer" class="form-control" size="@SuggestionSize" style="overflow: hidden" disabled></select>
+        </div>
+    </div>
+
+    <hr />
+    <div class="row">
+        <p>* @Localizer["Required"]</p>
+    </div>
+
+    <input asp-for="TimeTillReset" type="number" id="IdleTimer" value="@Model.TimeTillReset" hidden />
+    <input type="checkbox" asp-for="Edit" value="true" hidden checked />
+
+    <div class="row">
+        <input type="submit" class="btn btn-primary" asp-action="Index" asp-controller="Registration" value="@Localizer["Edit"]" />
+        <button type="submit" asp-action="AddRegistration" asp-controller="Registration" id="SendButton" class="btn btn-success" style="float:right">@Localizer["Continue"]</button>
+    </div>
+</form>
+
+
+<a asp-action="Index" id="BackToIndex" style="display:none"></a>
+
+<script src="~/js/IdleTimer.js"></script>
+

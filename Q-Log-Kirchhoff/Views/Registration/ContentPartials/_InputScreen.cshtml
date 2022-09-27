@@ -1,0 +1,258 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+
+@model RegistrationViewModel
+@{
+    var errorMessage = ViewBag.ErrorMessage == null ? "" : ViewBag.ErrorMessage;
+    Dictionary<string, string> countryCodes = new Dictionary<string, string>();
+    countryCodes.Add("de", "0049");
+    countryCodes.Add("en", "0044");
+    countryCodes.Add("fr", "0033");
+    countryCodes.Add("es", "0034");
+    countryCodes.Add("it", "0039");
+    countryCodes.Add("pt", "00351");
+    countryCodes.Add("pl", "0048");
+    countryCodes.Add("hr", "00385");
+    countryCodes.Add("tr", "0090");
+    countryCodes.Add("cs-CZ", "00420");
+    countryCodes.Add("sk", "00421");
+    countryCodes.Add("hu", "0036");
+    countryCodes.Add("ro", "0040");
+    countryCodes.Add("ru", "007");
+    countryCodes.Add("lt", "00370");
+    countryCodes.Add("uk-UA", "00380");
+    string curCulture = Localizer["Language"].Value;//Context.Request.Headers["accept-language"];
+
+}
+
+<link rel="stylesheet" href="~/css/VirtualKeyboard.css" />
+
+<form action="Send" id="RegistrationForm" onsubmit="disableButton('SendButton')" method="post">
+    @*<form asp-controller="Registration" asp-action="AddRegistration" id="RegistrationForm" onsubmit="disableButton('SendButton')" method="post">*@
+
+    <div asp-validation-summary="All" style="color:red"></div>
+
+    <input type="hidden" asp-for="SelectedLanguage" value="curCulture" />
+
+
+    <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
+    <div class="row">
+        <div class="col-md-4">
+            <label asp-for="LicensePlate" class="control-label">@Localizer["vehicle_number"]*</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" onclick="showKeyboard(this, '@Localizer["vehicle_number"]' ,false, false);"  asp-for="LicensePlate" class="form-control inputElement" id="LicensePlateInput" placeholder="ABC-DE-123" autocomplete="off" required />
+        </div>
+    </div>
+
+    <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
+    <div class="row">
+        <div class="col-md-4">
+            <label asp-for="LicensePlate" class="control-label">@Localizer["name"]*</label>
+        </div>
+        <div class="col-md-8">
+            <div class="flexdiv">
+                <div>
+                    <input type="text" onclick="showKeyboard(this, '@Localizer["lastname"]' ,false, false);"  asp-for="Lastname" class="form-control inputElement" id="LicensePlateInput" placeholder="@Localizer["lastname"]" required autocomplete="off" />
+                </div>
+                <div>
+                    <input type="text" onclick="showKeyboard(this, '@Localizer["firstname"]' ,false, false);" asp-for="Firstname" class="form-control inputElement" id="LicensePlateInput" placeholder="@Localizer["firstname"]" required autocomplete="off" />
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
+    <div class="row">
+        <div class="col-md-4">
+            <label asp-for="Forwarder" class="control-label">@Localizer["forwarder"]*</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" onclick="showKeyboard(this, '@Localizer["forwarder"]' ,false, false);" asp-for="Forwarder" class="form-control inputElement" id="ForwarderInput" placeholder="@Localizer["forwarder"]" required autocomplete="off" />
+        </div>
+    </div>
+    <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
+    <div class="row">
+        <div class="col-md-4">
+            <label asp-for="Customer" class="control-label">@Localizer["customer"]*</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" onclick="showKeyboard(this, '@Localizer["customer"]' ,false, false);" asp-for="Customer" class="form-control inputElement" id="CustomerInput" placeholder="@Localizer["customer"]" required autocomplete="off" />
+        </div>
+    </div>
+    <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
+    <div class="row">
+        <div class="col-md-4">
+            <label asp-for="Phonenumber" class="control-label">@Localizer["phone_number"]*</label>
+        </div>
+        <div class="col-md-8">
+            <input type="text" onclick="showKeyboard(this, '@Localizer["phone_number"]' ,false, false);" asp-for="Phonenumber" class="form-control inputElement" id="PhonenumberInput" placeholder="@Localizer["phone_number"]" required autocomplete="off" />
+        </div>
+    </div>
+
+    <!------------------------------------------------------------------------------------------------------------------------------------------------------------->
+    <div class="row">
+        <div class="col-md-4">
+            <label asp-for="Targets" id="targets" class="control-label">@Localizer["targets"]*</label>
+        </div>
+        <div class="col-md-8">
+            <div>
+                <div class="collapsible active" id="loadinggoodsxx">
+                    <span> @Localizer["targetgroup_shipment_pickup"]</span>
+                    <span class="checkbox">
+                        <input type="checkbox" id="LoadCustomerPickup" asp-for="LoadCustomerPickup">
+                    </span>
+                </div>
+                <div>
+                    @Localizer["target_shipments_instruction"]
+
+                </div>
+
+            </div>
+
+
+
+            <div>
+                <div class="collapsible active" id="loadinggoodsxxs">
+                    <span> @Localizer["targetgroup_goods_receipt_delivery"]</span>
+                    <span class="checkbox">
+                        <input type="checkbox" id="GoodsReceiptdelivery" asp-for="GoodsReceiptdelivery">
+                    </span>
+                </div>
+                <div>
+                    <p>
+                        @Localizer["target_delivery_instruction"]
+                    </p>
+                 
+                </div>
+
+            </div>
+
+            
+            
+
+            <div>
+                <div class="collapsible active" id="loadinggoodsxxs">
+                    <span> @Localizer["targetgroup_empties_delivery_pickup"]</span>
+                    <span class="checkbox">
+                        <input type="checkbox" id="GoodsReceiptCustomerEmpties" asp-for="GoodsReceiptCustomerEmpties">
+                    </span>
+                </div>
+                <div>
+                    <p>
+                        @Localizer["target_unloadingempties_instruction"]
+                    </p>
+
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+        </div>
+
+        
+    </div>
+
+
+
+
+
+    <hr />
+
+    <div class="row">
+        <p>* @Localizer["Required"]</p>
+    </div>
+
+    <input type="checkbox" asp-for="Edit" value="false" hidden />
+    <input asp-for="TimeTillReset" type="number" id="IdleTimer" value="@Model.TimeTillReset" hidden />
+
+    <div class="row">
+        <a asp-action="Index" class="btn btn-danger">@Localizer["cancel"]</a>
+        @*<button type="submit" id="SendButton" class="btn btn-success" style="float:right">@Localizer["Continue"]</button>*@
+        <button type="submit" asp-action="AddRegistration" asp-controller="Registration" id="SendButton" class="btn btn-success" style="float:right">@Localizer["register"]</button>
+
+
+
+    </div>
+</form>
+
+    <br />
+
+    <a asp-action="Index" id="BackToIndex" style="display:none"></a>
+
+    @section Scripts
+        {
+
+        <script src="~/js/IdleTimer.js"></script>
+    }
+
+
+
+    <script>
+     
+
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+
+
+        document.getElementById('SendButton').onclick = function (e) {
+        
+            let goodsReceiptCustomerEmpties = document.getElementById('GoodsReceiptCustomerEmpties').checked;    
+            let goodsReceiptdelivery = document.getElementById('GoodsReceiptdelivery').checked;  
+            let loadCustomerPickup = document.getElementById('LoadCustomerPickup').checked;
+         
+           
+
+            document.getElementById('targets').classList.remove("target-error");
+
+            if (!goodsReceiptCustomerEmpties && !goodsReceiptdelivery && !loadCustomerPickup ) {
+                e.preventDefault();
+                
+                document.getElementById('targets').classList.add("target-error");
+            } else {
+         
+            }
+          
+        }
+
+        document.getElementById('delivery').onclick = function (e) {
+            if (e.target.classList.contains("active")) {
+               // document.getElementById('loadinggoods').style.display = "none";
+            } else {
+               // document.getElementById('loadinggoods').style.display = "";
+            }
+        }
+
+        document.getElementById('loadinggoods').onclick = function (e) {
+            if (e.target.classList.contains("active")) {
+               // document.getElementById('delivery').style.display = "none"
+            } else {
+              //  document.getElementById('delivery').style.display = ""
+            }
+        }
+
+
+      
+    </script>
+

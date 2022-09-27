@@ -1,0 +1,120 @@
+﻿
+Dieses Dokument stellt die Funktionalitäten der Versionen dar.
+
+
+------------	Version 0.0.1	-	11.01.2018	------------
+
+Die Version 0.0.1 ist die Basis version von ODW mit kleineren Anpassungen
+
+Anmeldung:
+	+	Die Anmeldung wird von einem Mitarbeiter durchgeführt und ist nur in Deutsch verfügbar.
+	+	Es wird Ausschließlich die Eingabemaske angezeigt. Dementsprechend gibt es keine Informationsseiten.
+	+	Die Anmeldung ist durch die Rolle "Registration" zutrittsbeschränkt.
+
+	+	Alle Eingaben werden in Großbuchstaben umgewandelt.
+	+	Die Eingaben werden nicht gefiltert.
+	+	Nachdem zwei Buchstaben in das Speditionsfeld eingegeben wurden, kann eine Spedition aus der Auswahlliste ausgewählt werden, falls Speditionen mit 
+		entsprechenden Namen vorliegen.
+	+	Das Kennzeichen ist ein Pflichtfeld.
+	+	Es muss entweder eine Spedition eingegeben, oder die Checkbox "Spedition nicht bekannt" ausgewählt werden.
+	+	Es muss mindestens eine der Optionen "Anliefern" oder "Abholen" ausgewählt werden. Es können jedoch auch beide ausgewählt sein.
+	
+	+	Durch Klick auf den "Senden"-Button wird die Anmeldung ausgeführt. Eventuelle Fehlermeldungen werden oberhalb der Eingabefelder angezeigt.
+	+	Durch Klick auf den "Zurücksetzen"-Button wird die Eingabemaske in den Ursprungszustand zurückgesetzt.
+
+Bearbeiten:
+	+	Die Bearbeitung wird von Mitarbeitern durchgeführt und ist nur in Deutsch verfügbar.
+	+	Wenn eine neue Anmeldung vorgenommen wurde, wird diese sofort in der Liste angezeigt und Blau hervorgehoben. Nach 3 sekunden wird die Liste dann neu geladen.
+	+	Die Liste besteht aus den Spalten "Kennzeichen", "Spedition", "Anm. um", "Anm. vor (in min.)", "Art", "Tor", "Aufruf um", "Einfahrt um" und "Ausfahrt um".
+	+	Alle Zeiten können durch Klick zwischen vollem Datum und nur Uhrzeit getoggled werden.
+	+	Es gibt drei Auftragsarten, welche durch unterschiedliche Farben hervorgehoben werden. 
+			1.) "An" - für Anlieferungen, wird Grün unterlegt. 
+			2.) "Ab" - für Abholungen, wird Rot hinterlegt.
+			3.)	"An & Ab" - für Anlieferung und Abholung, wird Blau hinterlegt.
+	+	Tore können durch Auswahl aus einer Liste zugewiesen werden. Dabei werden die Anzeigen aktualisiert.
+	+	Ein Fahrzeug wird durch Klick auf "Aufruf" aufgerufen. Dabei wird die Serverzeit eingetragen und die Anzeigen aktualisiert.
+	+	Die Einfahrt eines Fahrzeugs wird durch Klick auf "Einfahrt" gesetzt. Hierbei wird die Serverzeit eingetragen und die Anzeigen aktualisiert.
+	+	Die Ausfahrt eines Fahrzeugs wird durch Klick auf "Ausfahrt" gesetzt. Hierbei wird die Serverzeit eingetragen, die Anzeigen aktualisiert und der Eintrag 
+		wird nach kurzer Zeit aus der Liste entfernt.
+
+	+	Alle Aktionen, die eine Aktualisierung der Anzeigen mit sich ziehen, blockieren alle weiteren Aktionsbuttons während ihrer Ausführung.
+
+	+	Änderungen an einem Eintrag werden durch eine Gelb hinterlegte Zeile hervorgehoben.
+	+	Einträge, bei denen die Ausfahrtszeit gesetzt wurde, werden Grün hinterlegt.
+
+	+	Man kann die Liste mittels Volltextsuche durchsuchen.
+	+	Alle Spalten, außer "Tor", können sortiert werden. Die bevorzugte Sortierung wird beim Client gespeichert. (Datatabels)
+	+	Der Bearbeitungsbereich ist durch die Rolle "Processing" zutrittsbeschränkt.
+	+	Die Aktionen "Tor zuweisen", "Aufruf", "Einfahrt setzen" und "Ausfahrt setzen" sind durch die Rollen "Gate", "Call", "Entry" und "Exit" zugriffsbeschränkt.
+
+Historie:
+	+	Die Historie ist durch die Rolle "History" zutrittsbeschränkt.
+	+	Der Export der Daten ist durch die Rolle "Export" zugriffsbeschränkt.
+
+	+	Die Liste besteht aus den Spalten "Kennzeichen", "Spedition", "ERP ID", "Anm. am", "Dauer (in min.)", "Art", "Tor", "Aufruf um", "Einfahrt um", "Ausfahrt um".
+	+	Die Art wird wie bei der Bearbeitung hervorgehoben.
+	+	Einträge bei denen keine Einfahrszeit gesetzt wurde, werden in Blau hinterlegt.
+
+	+	Die Liste kann nach folgenden Kriterien gefiltert werden:
+		1.)	Kennzeichen
+		2.)	Spedition
+		3.)	ERP ID
+		4.)	Anmeldung zwischen zwei Daten mit Uhrzeit
+		5.)	Dauer zwischen min und max
+		6.)	Art
+		7.)	Tor
+		8.)	Aufruf zwischen zwei Daten mit Uhrzeit
+		9.)	Einfahrt zwischen zwei Daten mit Uhrzeit
+		10.) Ausfahrt zwischen zwei Daten mit Uhrzeit
+	+	Der Filter kann durch Klick auf "Zurücksetzen" zurückgesezt werden.
+
+Konfiguration:
+	+	Die Konfiguration ist durch die Rolle "Configuration" zutrittsbeschränkt.
+	+	Es stehen Einstellungen für die Bereiche:
+		1.) Tore
+		2.)	Speditionen
+		3.)	Anzeigen
+		4.)	Unbekannte Speditionen
+		5.)	Benutzer
+		6.)	Berechtigungsgruppen
+		7.)	Active Directory
+		zur Verfügung.
+
+	+	Tore können manuell hinzugefügt, oder aus einer CSV Datei importiert werden.
+	+	Es können Standard-Tore für die Anlieferung und Abholung festgelegt werden. 
+		Diese Tore werden immer Verwendet, wenn die Spedition unbekannt ist, oder ihr keine Tore zugewiesen wurden.
+	+	In einer Tabelle werden alle eingetragenen Tore angezeigt.
+	+	Jedes Tor kann bearbeitet oder gelöscht werden.
+
+	+	Speditionen können manuell hinzugefügt, oder aus einer CSV Datei importiert werden.
+	+	Jeder Spedition können die Tore für Anlieferung und Abholung individuell zugewiesen werden.
+	+	Jede Spedition kann beaerbeitet oder gelöscht werden.
+
+	+	Anzeigen können ausschließlich manuell hinzugefügt werden. Hierzu werden folgende Daten benötigt:
+		1.) Ein Name für die Anzeige
+		2.)	Die IP Adresse
+		3.)	Der Port (Normalfall 10001)
+		4.)	Ein TCP Timeout in ms (default 2500 ms)
+		5.)	Eine Wartezeit nach dem Senden in ms (default 250 ms)
+		6.)	Die Anzahl der Zeilen
+		7.) Die nzahl der Zeichen pro Zeile
+		8.) Ob Einträge bei Einfahrt oder Ausfahrt von der Anzeige entfernt werden sollen.
+
+	+	Unbekannte Speditionen sind jene, deren Name bei einer Anmeldung angegeben wurde und nicht in der Liste der Speditionen eingetragen ist.
+	+	Die Liste der Unbekannten Speditionen kann als CSV- oder XML-Datei exportiert werden.
+	+	Neben dem Namen wird das Datum + Uhrzeit des ersten Auftretens gespeichert. Zusätzlich wird gezählt, wie oft der Name eingegeben wurde.
+
+	+	Benutzer können nur manuell hinzugefügt werden. Hierzu wird ein Name und Passwort benötigt. Zusätzlich kann eine Berechtigungsgruppe zugewiesen werden.
+
+	+	Berechtigungsgruppen können nur manuell hinzugefügt werden. Hierbei muss ein Name angegeben werden. 
+		Zusätzlich kann ein AD Gruppenname angegeben werden, damit automatisch erzeugte Benutzer dieser Gruppe zugewordnet werden können.
+		Alle Berechtigungen können über Checkboxen vergeben werden.
+
+	+	Es besteht die Möglichkeit Active Directory nicht zu benutzen.
+	+	Es können automatisch Benutzerkonten aus Active Directory Informationen erzeugt werden. Diese Funktion kann ebenfalls ausgeschaltet werden.
+
+Menüleiste:
+	+	Die Menüleiste besteht aus dem Kundenlogo, der Anmeldung, der Bearbeitung, der Historie, der Konfiguration, einer Information und dem Logout.
+	+	Die Information zeigt beim drüberhergehen mit der Maus für jede Seite spezifische Hilfestellungen an.
+
+	

@@ -1,0 +1,123 @@
+﻿@model SupplierViewModel
+@{
+    ViewData["Title"] = "Lieferant bearbeiten";
+    ViewBag.targetArea = "Configuration";
+    var errorMessage = ViewBag.ErrorMessage == null ? "" : ViewBag.ErrorMessage;
+    var localizations = ViewBag.Localizations;
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <partial name="/Views/Shared/_ConfigNav.cshtml" />
+    </div>
+    <div class="col-md-9">
+        <div class="col-lg-10">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>@localizations["EditSupplier"]</h4>
+                </div>
+                <div class="panel-body">
+                    <div asp-validation-summary="All" style="color:red;">
+                        @if (!String.IsNullOrEmpty(errorMessage))
+                        {
+                            <ul>
+                                <li>@errorMessage</li>
+                            </ul>
+                        }
+                    </div>
+
+                    <form class="form" asp-action="EditSupplier" method="post" onsubmit="disableButton('SendButton')">
+                        <input type="hidden" asp-for="@Model.Supplier.ID" value="@Model.Supplier.ID" />
+                        <div class="form-group">
+                            <label class="control-label">@localizations["Name"] *:</label>
+                            <input type="text" class="form-control" asp-for="@Model.Supplier.Name" value="@Model?.Supplier.Name" autocomplete="off" autofocus />
+                        </div>
+
+                        <input type="text" id="FormNumbersInput" class="form-control inputElement" asp-for="Numbers" autocomplete="off" hidden />
+                        <input type="text" class="form-control inputElement" asp-for="OldName" autocomplete="off" hidden />
+
+                        <div class="row" style="margin-bottom:4px">
+                            <div class="col-md-3">
+                                <label class="control-label">@localizations["AddSupplierNumbers"]:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control inputElement" id="SupplierNumberInput" autocomplete="off" />
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-success" onclick="addSupplierNumber()">@localizations["Add"]</button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="control-label">@localizations["SupplierNumbers"]:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-control" id="supplierNumberSelect" size="6" style="overflow:scroll;overflow-x:hidden">
+                                    @{
+                                        if (!string.IsNullOrWhiteSpace(Model.Numbers))
+                                        {
+                                            foreach (string number in Model.Numbers.Split(","))
+                                            {
+                                                if (!string.IsNullOrWhiteSpace(number))
+                                                {
+                                                <option onclick="enableRemoveButton()">@number</option>
+                                                }
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-danger" id="removeButton" onclick="removeSupplierNumber()" disabled>@localizations["Remove"]</button>
+                            </div>
+                        </div>
+
+                        <div class="form-inline">
+                            <label class="control-label unselectable">
+                                @localizations["Highlighting"]:
+                            </label>
+                            <input type="color" class="form-control unselectable" style="min-width:100px; padding:3px;" asp-for="@Model.Supplier.ColorCode" />
+                        </div>
+                        <hr />
+
+                        <div class="form-group">
+                            <p>* @localizations["Required"]</p>
+                        </div>
+
+                        <hr />
+
+                        <div class="form-inline">
+                            <a asp-action="Suppliers" class="btn btn-danger" style="float:left;">@localizations["Cancel"]</a>
+                            <button type="submit" class="btn btn-success" style="float:right;" id="SendButton">@localizations["Save"]</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        document.getElementById("Suppliers").className += " active";
+
+        $(document).ready(function () {
+            setupInfoPopOver();
+        });
+
+        function setupInfoPopOver() {
+            $('[data-toggle="popover"]').popover();
+            var data = "<ul>";
+            data += "<li>" + localizations['NameRequired'] + "</li>";
+            data += "</ul>";
+            var popover = $('#InfoPopover');
+            popover.attr('data-content', data);
+        }
+    </script>
+    <script src="~/js/SupplierConfiguration.js"></script>
+}

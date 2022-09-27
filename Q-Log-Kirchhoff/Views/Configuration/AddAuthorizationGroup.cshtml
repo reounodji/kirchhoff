@@ -1,0 +1,183 @@
+﻿@model GroupViewModel
+@{
+    ViewData["Title"] = "Gruppe hinzufügen";
+    ViewBag.targetArea = "Configuration";
+    var errorMessage = ViewBag.ErrorMessage == null ? "" : ViewBag.ErrorMessage;
+    var localizations = ViewBag.Localizations;
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <partial name="/Views/Shared/_ConfigNav.cshtml" />
+    </div>
+    <div class="col-md-9">
+        <div class="col-lg-10">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>@localizations["AddAuthorizationGroup"]</h4>
+                </div>
+                <div class="panel-body">
+                    <div id="ErrorDiv" asp-validation-summary="All" style="color:red;">
+                        <ul id="ErrorUL">
+                            @if (!String.IsNullOrEmpty(errorMessage))
+                            {
+                                <li>@errorMessage</li>
+                            }
+                        </ul>
+                    </div>
+
+                    <form class="form" asp-action="AddAuthorizationGroup" method="post" onsubmit="disableButton('SendButton')">
+                        @if (Model != null && Model.Group != null)
+                        {
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.Name" class="control-label col-sm-6 unselectable">@localizations["Name"] *:</label>
+                                <input type="text" class="form-control" asp-for="Group.Name" autocomplete="off" autofocus placeholder="@localizations["Name"]" />
+                            </div>
+                            <div class="form-inline row">
+                                <label asp-for="Group.ADGroupName" class="control-label col-sm-6 unselectable">@localizations["ADGroupName"]:</label>
+                                <input type="text" class="form-control" asp-for="Group.ADGroupName" autocomplete="off" placeholder="@localizations["ADGroupName"]" />
+                            </div>
+
+                            <hr />
+                            <h4>@localizations["MenuProcessing"]</h4>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanUseProcessingList" class="control-label col-sm-6 unselectable">@localizations["AccessToProcessing"]:</label>
+                                <input type="checkbox" asp-for="Group.CanUseProcessingList" class="myCheckbox form-control" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanModifyProcessingList" class="control-label col-sm-6 unselectable">@localizations["CanModifyProcessingList"]:</label>
+                                <input type="checkbox" asp-for="Group.CanModifyProcessingList" class="myCheckbox form-control" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanSetLoadingStation" class="control-label col-sm-6 unselectable">@localizations["CanSetLoadingStation"]:</label>
+                                <input type="checkbox" asp-for="Group.CanSetLoadingStation" class="myCheckbox form-control" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanSetGate" class="control-label col-sm-6 unselectable">@localizations["CanSetGate"]:</label>
+                                <input type="checkbox" asp-for="Group.CanSetGate" class="myCheckbox form-control" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanSetRelease" class="control-label col-sm-6 unselectable">@localizations["CanSetRelease"]:</label>
+                                <input type="checkbox" asp-for="Group.CanSetRelease" class="myCheckbox form-control" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanSetCall" class="control-label col-sm-6 unselectable">@localizations["CanSetCall"]:</label>
+                                <input type="checkbox" asp-for="Group.CanSetCall" class="myCheckbox form-control" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanSetEntrance" class="control-label col-sm-6 unselectable">@localizations["CanSetEntrance"]:</label>
+                                <input type="checkbox" asp-for="Group.CanSetEntrance" class="myCheckbox form-control" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanSetProcessStart" class="control-label col-sm-6 unselectable">@localizations["CanSetProcessStart"]:</label>
+                                <input type="checkbox" asp-for="Group.CanSetProcessStart" class="myCheckbox form-control" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanSetProcessEnd" class="control-label col-sm-6 unselectable">@localizations["CanSetProcessEnd"]:</label>
+                                <input type="checkbox" asp-for="Group.CanSetProcessEnd" class="myCheckbox form-control" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanSetExit" class="control-label col-sm-6 unselectable">@localizations["CanSetExit"]:</label>
+                                <input type="checkbox" asp-for="Group.CanSetExit" class="myCheckbox form-control" />
+                            </div>
+
+                            <hr />
+
+                            <h4>@localizations["MenuHistory"]</h4>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanUseHistory" class="control-label col-sm-6 unselectable">@localizations["CanUseHistory"]:</label>
+                                <input type="checkbox" asp-for="Group.CanUseHistory" class="myCheckbox form-control" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanExportHistory" class="control-label col-sm-6 unselectable">@localizations["CanExportHistory"]:</label>
+                                <input type="checkbox" asp-for="Group.CanExportHistory" class="myCheckbox form-control" />
+                            </div>
+
+                            <hr />
+                            <h4>@localizations["MenuConfiguration"]</h4>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanUseConfig" class="control-label col-sm-6 unselectable">@localizations["CanUseConfig"]:</label>
+                                <input type="checkbox" asp-for="Group.CanUseConfig" class="myCheckbox form-control" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanModifyAllSettings" class="control-label col-sm-6 unselectable">@localizations["CanModifyAllSettings"]:</label>
+                                <input type="checkbox" asp-for="Group.CanModifyAllSettings" class="myCheckbox form-control" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanInspectApproachTyps" class="control-label col-sm-6 unselectable">@localizations["CanInspectApproachTyps"]:</label>
+                                <input type="checkbox" asp-for="Group.CanInspectApproachTyps" class="myCheckbox form-control" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanModifyApproachTyps" class="control-label col-sm-6 unselectable">@localizations["CanModifyApproachTyps"]:</label>
+                                <input type="checkbox" asp-for="Group.CanModifyApproachTyps" class="myCheckbox form-control" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanInspectUnknownApproachTyps" class="control-label col-sm-6 unselectable">@localizations["CanInspectUnknownApproachTyps"]:</label>
+                                <input type="checkbox" asp-for="Group.CanInspectUnknownApproachTyps" class="myCheckbox form-control" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="Group.CanModifyUnknownApproachTyps" class="control-label col-sm-6 unselectable">@localizations["CanModifyUnknownApproachTyps"]:</label>
+                                <input type="checkbox" asp-for="Group.CanModifyUnknownApproachTyps" class="myCheckbox form-control" />
+                            </div>
+                            <hr />
+
+                            <div class="form-group">
+                                <p>* @localizations["Required"]</p>
+                            </div>
+
+                            <hr />
+                        }
+                        <div class="form-inline">
+                            <a asp-action="AuthorizationGroups" class="btn btn-danger" style="float:left;" id="CancelButton" onclick="disableButton('CancelButton')">@localizations["Cancel"]</a>
+                            <button type="submit" class="btn btn-success" style="float:right;" id="SendButton">@localizations["Save"]</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        document.getElementById("AuthorizationGroups").className += " active";
+
+        $(document).ready(function () {
+            setupInfoPopOver();
+        });
+
+        function setupInfoPopOver() {
+            $('[data-toggle="popover"]').popover();
+            var data = "<ul>";
+            data += "<li>"+ localizations['NameRequired'] +"</li>";
+            data += "<hr />";
+            data += "<li>" + localizations['ADAuthorizationGroup'] + "</li>";
+            data += "</ul>";
+            var popover = $('#InfoPopover');
+            popover.attr('data-content', data);
+        }
+
+    </script>
+}

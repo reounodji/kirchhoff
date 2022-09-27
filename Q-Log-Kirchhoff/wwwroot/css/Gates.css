@@ -1,0 +1,17 @@
+﻿body {
+}
+
+.gate{
+    color:white;
+    padding: 5px;
+    border: outset;
+    height: 100%;
+}
+
+.gate-free{
+    background-color: forestgreen;
+}
+
+.gate-occupied{
+    background-color: red;
+}

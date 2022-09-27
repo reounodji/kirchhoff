@@ -1,0 +1,125 @@
+﻿@model DisplayConfiguration
+@{
+    ViewData["Title"] = "Anzeige bearbeiten";
+    ViewBag.targetArea = "Configuration";
+    var errorMessage = ViewBag.ErrorMessage == null ? "" : ViewBag.ErrorMessage;
+    var localizations = ViewBag.Localizations;
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <partial name="/Views/Shared/_ConfigNav.cshtml" />
+    </div>
+    <div class="col-md-9">
+        <div class="col-lg-10">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>@localizations["EditDisplay"]</h4>
+                </div>
+                <div class="panel-body">
+                    <div asp-validation-summary="All" style="color:red;">
+                        @if (!String.IsNullOrEmpty(errorMessage))
+                        {
+                            <ul>
+                                <li>@errorMessage</li>
+                            </ul>
+                        }
+                    </div>
+
+                    <form class="form" asp-action="EditDisplay" method="post" onsubmit="disableButton('SendButton')">
+                        <input type="hidden" asp-for="ID" value="@Model?.ID" />
+                        <div class="form-group">
+                            <label class="control-label">@localizations["Name"] *:</label>
+                            <input type="text" class="form-control" asp-for="Name" value="@Model?.Name" autocomplete="off" autofocus />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">@localizations["IPAddress"] *:</label>
+                            <input type="text" class="form-control" asp-for="IPAddress" value="@Model?.IPAddress" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">@localizations["Port"]:</label>
+                            <input type="number" class="form-control" asp-for="Port" min="1" step="1" value="@Model?.Port" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">@localizations["TCPTimeout"]:</label>
+                            <input type="number" class="form-control" asp-for="TcpTimeoutInMs" min="100" step="1" value="@Model?.TcpTimeoutInMs" />
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="control-label">@localizations["AmountOfRows"]:</label>
+                            <input type="number" class="form-control" asp-for="Rows" min="1" step="1" value="@Model?.Rows" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">@localizations["AmountOfCharsPerRow"]:</label>
+                            <input type="number" class="form-control" asp-for="CharsPerLine" min="1" step="1" value="@Model?.CharsPerLine" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">@localizations["RemoveEntriesBy"]:</label>
+                            @{
+                                var removalTypes = Enum.GetNames(typeof(EEntryRemovalType));
+                            }
+                            <select asp-for="EntryRemovalType" class="form-control">
+                                @for (int i = 0; i < removalTypes.Length; i++)
+                                {
+                                    if (Enum.GetName(typeof(EEntryRemovalType), Model.EntryRemovalType) == removalTypes[i])
+                                    {
+                                        <option selected>@removalTypes[i]</option>
+                                    }
+                                    else
+                                    {
+                                        <option>@removalTypes[i]</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <hr />
+                        <div class="form-group">
+                            <p>* @localizations["Required"]</p>
+                        </div>
+
+                        <hr />
+                        <div class="form-inline">
+                            <a asp-action="Displays" class="btn btn-danger" style="float:left;">@localizations["Cancel"]</a>
+                            <button type="submit" class="btn btn-success" style="float:right;" id="SendButton">@localizations["Save"]</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        document.getElementById("Displays").className += " active";
+
+        $(document).ready(function () {
+            setupInfoPopOver();
+        });
+
+        function setupInfoPopOver() {
+            $('[data-toggle="popover"]').popover();
+            var data = "<ul>";
+            data += "<li>" + localizations['NameRequired'] + "</li>";
+            data += "<hr />";
+            data += "<li>" + localizations['AddDisplay'] + "</li>";
+            data += "<li>" + localizations['PortInfo'] + "</li>";
+            data += "<li>" + localizations['TCPTimeoutInfo'] + "</li>";
+            data += "<li>" + localizations['RemoveEntriesByInfo'] + "</li>";
+            data += "</ul>";
+            var popover = $('#InfoPopover');
+            popover.attr('data-content', data);
+        }
+    </script>
+}

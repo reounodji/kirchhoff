@@ -1,0 +1,106 @@
+﻿@model GeneralSettingsViewModel
+@{
+    ViewData["Title"] = "Konfiguration";
+    ViewBag.targetArea = "Configuration";
+    var errorMessage = ViewBag.ErrorMessage == null ? "" : ViewBag.ErrorMessage;
+    var localizations = ViewBag.Localizations;
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <partial name="/Views/Shared/_ConfigNav.cshtml" />
+        <!--col-lg-2-->
+    </div>
+    <div class="col-md-9">
+        <div class="col-lg-10">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>@localizations["Overview"]</h4>
+                </div>
+                <div class="panel-body">
+                    <div asp-validation-summary="All" style="color:red;">
+                        @if (!String.IsNullOrEmpty(errorMessage))
+                        {
+                            <ul>
+                                <li>@errorMessage</li>
+                            </ul>
+                        }
+                    </div>
+                    @if(User?.IsInRole("CanModifyAllSettings") == true)
+                    { 
+                    <h4>@localizations["MenuProcessing"]:</h4>
+                        <form asp-action="SetGeneralSettings" asp-controller="Configuration" method="post" onsubmit="disableButton('SendButton')">
+                            <div class="form-inline row">
+                                <label asp-for="RegistrationTimeThreshold" class="control-label col-sm-6 unselectable">@localizations["HighlightWaiting"]:</label>
+                                <input type="number" asp-for="RegistrationTimeThreshold" class="form-control" value="@Model?.RegistrationTimeThreshold" min="0" autocomplete="off" />
+                            </div>
+
+                            <hr />
+                            <h4>@localizations["MenuHistory"]:</h4>
+                            <div class="form-inline row">
+                                <label asp-for="DefaultHistoryTimespan" class="control-label col-sm-6 unselectable">@localizations["DefaultHistoryTimespan"]:</label>
+                                <input type="number" asp-for="DefaultHistoryTimespan" min="0" step="1" class="form-control" value="@Model?.DefaultHistoryTimespan" autocomplete="off" />
+                            </div>
+                            <hr />
+                            <h4>@localizations["Displays"]:</h4>
+                            <div class="form-inline row">
+                                <label asp-for="UpdateDisplayInterval" class="control-label col-sm-6 unselectable">@localizations["UpdateDisplays"]:</label>
+                                <input type="number" asp-for="UpdateDisplayInterval" min="0" step="1" class="form-control" value="@Model?.UpdateDisplayInterval" autocomplete="off" />
+                            </div>
+
+                            <hr />
+                            <h4>@localizations["Colors"]:</h4>
+                            <div class="form-inline row">
+                                <label asp-for="HoverColorCode" class="control-label col-sm-6 unselectable">@localizations["HighlightColorCurrentRow"]:</label>
+                                <input type="color" asp-for="HoverColorCode" class="form-control unselectable" style="min-width:100px; padding:3px;" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="ExceededWaitTimeColorCode" class="control-label col-sm-6 unselectable">@localizations["HighlightColorWaiting"]:</label>
+                                <input type="color" asp-for="ExceededWaitTimeColorCode" class="form-control unselectable" style="min-width:100px; padding:3px;" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="RecentChangeColorCode" class="control-label col-sm-6 unselectable">@localizations["HighlightColorChange"]:</label>
+                                <input type="color" asp-for="RecentChangeColorCode" class="form-control unselectable" style="min-width:100px; padding:3px;" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="NewEntryColorCode" class="control-label col-sm-6 unselectable">@localizations["HighlightColorNew"]:</label>
+                                <input type="color" asp-for="NewEntryColorCode" class="form-control unselectable" style="min-width:100px; padding:3px;" />
+                            </div>
+
+                            <div class="form-inline row">
+                                <label asp-for="ExitColorCode" class="control-label col-sm-6 unselectable">@localizations["HighlightColorExit"]:</label>
+                                <input type="color" asp-for="ExitColorCode" class="form-control unselectable" style="min-width:100px; padding:3px;" />
+                            </div>
+
+                            <div class="form-inline">
+                                <button type="submit" class="btn btn-success" style="float:right;" id="SendButton">@localizations["Save"]</button>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2">
+        </div>
+    </div>
+    <!--row-->
+</div>
+
+@section Scripts{
+    <script>
+        document.getElementById("Index").className += " active";
+        window.onload = setupInfoPopOver();
+
+        function setupInfoPopOver() {
+            $('[data-toggle="popover"]').popover();
+            var data = "<ul>";
+            data += "<li>" + localizations['UpdateRequiresRestart']+"</li>";
+            data += "</ul>";
+            var popover = $('#InfoPopover');
+            popover.attr('data-content', data);
+        }
+    </script>
+}

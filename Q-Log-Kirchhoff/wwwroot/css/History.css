@@ -1,0 +1,37 @@
+﻿
+td {
+    text-align: center;
+    word-break: break-word;
+}
+
+.form-inline{
+    padding: 5px 20px !important;
+}
+
+/*span, a {
+    padding: 0px 10px;
+}*/
+
+.collapseSpan {
+    cursor: pointer;
+    user-select: none;
+    color: #337ab7;    
+}
+
+.collapseSpan:hover{
+    text-decoration: underline;
+}
+
+/*tr:hover {
+
+    background-color: #00ffff !important;
+}*/
+
+label {
+    user-select: none;
+    cursor: pointer;
+}
+
+.checkbox{
+    cursor:pointer;
+}
